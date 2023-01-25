@@ -1,48 +1,46 @@
-function draw() {
-    loadFile();
+let dataJson = loadFile();
 
+function draw() {
+    // Start listening to resize events and draw canvas.
+    initialize();
+}
+
+function redraw() {
     const canvas = document.getElementById("tutorial");
     if (canvas.getContext) {
         const ctx = canvas.getContext("2d");
 
-        ctx.fillRect(25, 25, 100, 100);
-        ctx.clearRect(45, 45, 60, 60);
-        ctx.strokeRect(50, 50, 50, 50);
-
-        ctx.translate(100, 100);
-        ctx.beginPath();
-        ctx.moveTo(75, 50);
-        ctx.lineTo(100, 75);
-        ctx.lineTo(100, 25);
-        ctx.fill();
-
-        ctx.translate(200, 200);
-        ctx.beginPath();
-        ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
-        ctx.moveTo(110, 75);
-        ctx.arc(75, 75, 35, 0, Math.PI, false); // Mouth (clockwise)
-        ctx.moveTo(65, 65);
-        ctx.arc(60, 65, 5, 0, Math.PI * 2, true); // Left eye
-        ctx.moveTo(95, 65);
-        ctx.arc(90, 65, 5, 0, Math.PI * 2, true); // Right eye
-        ctx.stroke();
-
-        //// Filled triangle
-        ctx.translate(300, 300);
-        ctx.beginPath();
-        ctx.moveTo(25, 25);
-        ctx.lineTo(105, 25);
-        ctx.lineTo(25, 105);
-        ctx.fill();
-
-        //// Stroked triangle
-        //ctx.translate(400, 400);
-        ctx.beginPath();
-        ctx.moveTo(125, 125);
-        ctx.lineTo(125, 45);
-        ctx.lineTo(45, 125);
+        ctx.beginPath(); // x is 20 to 95, y is 5 to 80
+        ctx.moveTo(widthPc(20), heightPc(5));
+        ctx.lineTo(widthPc(20), heightPc(80));
+        ctx.moveTo(widthPc(20), heightPc(80));
+        ctx.lineTo(widthPc(95), heightPc(80));
         ctx.closePath();
         ctx.stroke();
+        
+        var minVal = 9999, maxVal = 0;
+        dataJson.xAxis.elements.forEach(function(item) {
+            item.timespans.forEach(function(ts) {
+                if (ts.start && ts.start < minVal) minVal = ts.start;
+                if (ts.end   && ts.end > maxVal)   maxVal = ts.end;
+                if (ts.start && ts.start > maxVal) maxVal = ts.start;
+            });
+        });
+        console.log(`x-axis : minVal is ${minVal} and maxVal is ${maxVal}`);
+        dataJson.yAxis.elements.forEach(function(item) {
+            item.timespans.forEach(function(ts) {
+                if (ts.start && ts.start < minVal) minVal = ts.start;
+                if (ts.end   && ts.end > maxVal)   maxVal = ts.end;
+                if (ts.start && ts.start > maxVal) maxVal = ts.start;
+            });
+        });
+        console.log(`y-axis : minVal is ${minVal} and maxVal is ${maxVal}`);
+
+        dataJson.yAxis.elements.forEach(function(item, index) {
+            ctx.font = '24px Arial';
+            ctx.fillStyle = '#000';
+            ctx.fillText(item.text, widthPc(3), heightPc(10 + (10 * index)));
+        });
     }
 }
 
@@ -51,8 +49,28 @@ function loadFile() {
     //console.log(dataObjectFromFile);
     
     
-    const jsonData = JSON.parse(data);
-    console.log(jsonData.text);
+    return JSON.parse(data);
+    //console.log(jsonData.text);
     //fetch('./metallica.json').then((response) => response.json())
     //                    .then((json) => console.log(json));
 }
+
+function initialize() {
+    // Register an event listener to call the resizeCanvas() function 
+    // each time the window is resized.
+    window.addEventListener('resize', resizeCanvas, false);
+    // Draw canvas border for the first time.
+    resizeCanvas();
+}
+// Runs each time the DOM window resize event fires.
+// Resets the canvas dimensions to match window,
+// then draws the new borders accordingly.
+function resizeCanvas() {
+    const htmlCanvas = document.getElementById("tutorial");
+    htmlCanvas.width = window.innerWidth;
+    htmlCanvas.height = window.innerHeight;
+    redraw(htmlCanvas);
+}
+
+function heightPc(pc) { return window.innerHeight / 100 * pc; }
+function widthPc(pc)  { return window.innerWidth  / 100 * pc; }
