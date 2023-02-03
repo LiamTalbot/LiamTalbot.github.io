@@ -39,10 +39,52 @@ function redraw() {
         dataJson.yAxis.elements.forEach(function(item, index) {
             ctx.font = '24px Arial';
             ctx.fillStyle = '#000';
-            ctx.fillText(item.text, widthPc(3), heightPc(10 + (10 * index)));
+            ctx.fillText(item.text, widthPc(3), heightPc(12 + (9 * index)));
+        });
+
+        dataJson.xAxis.elements.forEach(function(item, index) {
+//            ctx.save();
+//            ctx.translate(widthPc(23 + (5 * index)), heightPc(85));
+//            ctx.rotate(300 * (Math.PI / 180));
+//            ctx.textAlign = "center";
+//            ctx.font = '24px Arial';
+//            ctx.fillStyle = '#000';
+//            ctx.fillText(item.text, 0, 0);
+//            ctx.restore();
+
+            ctx.save();
+            wrapText(ctx, item.text, widthPc(23 + (5 * index)), heightPc(81), 260, 25);
+            ctx.restore();
+
+
         });
     }
 }
+
+      function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            context.translate(x, y);
+            context.rotate(300 * (Math.PI / 180));
+            context.textAlign = "right";
+            x = 0;
+            y = 0;
+        var words = text.split(' ');
+        var line = '';
+
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
 
 function loadFile() {
     //const dataObjectFromFile = require('./metallica.json');
