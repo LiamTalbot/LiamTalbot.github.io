@@ -39,52 +39,72 @@ function redraw() {
         dataJson.yAxis.elements.forEach(function(item, index) {
             ctx.font = '24px Arial';
             ctx.fillStyle = '#000';
-            ctx.fillText(item.text, widthPc(3), heightPc(12 + (9 * index)));
+            ctx.textAlign = "right";
+            ctx.fillText(item.text, widthPc(19), heightPc(12 + (9 * index)));
         });
 
         dataJson.xAxis.elements.forEach(function(item, index) {
-//            ctx.save();
-//            ctx.translate(widthPc(23 + (5 * index)), heightPc(85));
-//            ctx.rotate(300 * (Math.PI / 180));
-//            ctx.textAlign = "center";
-//            ctx.font = '24px Arial';
-//            ctx.fillStyle = '#000';
-//            ctx.fillText(item.text, 0, 0);
-//            ctx.restore();
-
             ctx.save();
             wrapText(ctx, item.text, widthPc(23 + (5 * index)), heightPc(81), 260, 25);
             ctx.restore();
+        });
 
+        dataJson.yAxis.elements.forEach(function(item, index) {
+            var height = heightPc(12 + (9 * index));
+            var scale = maxVal - minVal;
+            item.timespans.forEach(function(ts) {
+                var startScale = ts.start - minVal;
+                var startScalePc = startScale / scale * 75;
+                var endScale = ts.end - minVal;
+                var endScalePc = endScale / scale * 75;
 
+                if(isNaN(startScalePc) || startScalePc < 0) {
+                    startScalePc = 0;
+                }
+                if(startScalePc > 75) {
+                    startScalePc = 75;
+                }
+                if(isNaN(endScalePc) || endScalePc > 75) {
+                    endScalePc = 75;
+                }
+                if(endScalePc < 0) {
+                    endScalePc = 0;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(widthPc(20 + startScalePc), height);
+                ctx.lineTo(widthPc(20 + endScalePc), height);
+                ctx.closePath();
+                ctx.stroke();
+            });
         });
     }
 }
 
-      function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            context.translate(x, y);
-            context.rotate(300 * (Math.PI / 180));
-            context.textAlign = "right";
-            x = 0;
-            y = 0;
-        var words = text.split(' ');
-        var line = '';
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    context.translate(x, y);
+    context.rotate(300 * (Math.PI / 180));
+    context.textAlign = "right";
+    x = 0;
+    y = 0;
+    var words = text.split(' ');
+    var line = '';
 
-        for(var n = 0; n < words.length; n++) {
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
+    for(var n = 0; n < words.length; n++) {
+        var testLine = line + words[n] + ' ';
+        var metrics = context.measureText(testLine);
+        var testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
             context.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
-          }
-          else {
-            line = testLine;
-          }
         }
-        context.fillText(line, x, y);
-      }
+        else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, y);
+}
 
 function loadFile() {
     //const dataObjectFromFile = require('./metallica.json');
