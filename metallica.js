@@ -2,6 +2,8 @@ const data = `{
     "text": "Metallica",
     "xAxis": {
         "text": "Releases",
+        "scaleJump": 1,
+        "scales": null,
         "elements": [
             {
                 "text": "Kill 'Em All",

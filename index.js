@@ -1,5 +1,5 @@
 let dataJson = loadFile();
-let uniqueHexColors = ["#ff0099", "#00cc00", "#e6e600", "#6600cc", "#0099ff", "#993399", "#006633", "#cc9900", "#669933", "#ff99cc", "#330099", "#ff6600", "#9900cc", "#666633", "#ccccff"];
+let uniqueHexColors = ["#FF0099", "#00CC00", "#E6E600", "#6600CC", "#0099FF", "#993399", "#006633", "#CC9900", "#669933", "#FF99CC", "#330099", "#FF6600", "#9900CC", "#666633", "#CCCCFF"];
 
 function draw() {
     // Start listening to resize events and draw canvas.
@@ -35,24 +35,61 @@ function redraw() {
             });
         });
 
+        if (!isNaN(dataJson.xAxis.scaleJump)) {
+            var scale  = maxVal - minVal;
+            for (let i = 0; i <= scale; i = i + dataJson.xAxis.scaleJump) {
+                var startScale   = 0 + i;
+                var startScalePc = startScale / scale * 75;
+
+                if (isNaN(startScalePc) || startScalePc < 0) break;
+                if (startScale > maxVal || startScalePc > 75) break;
+
+                ctx.beginPath();
+                ctx.strokeStyle = "#999";
+                ctx.moveTo(widthPc(20 + startScalePc), heightPc(80));
+                ctx.lineTo(widthPc(20 + startScalePc), heightPc(80) + 20);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.font = '12px Arial';
+                ctx.fillStyle = "#999";
+                ctx.textAlign = "center";
+                ctx.fillText((minVal + i).toString(), widthPc(20 + startScalePc), heightPc(80) + 30);
+            }
+        } else if (dataJson.xAxis.scales != null && dataJson.xAxis.scales.length > 0) {
+            dataJson.xAxis.scales.forEach(function(item, index) {
+//                ctx.beginPath();
+//                ctx.strokeStyle = "#444";
+//                ctx.moveTo(widthPc(20 + i), heightPc(80));
+//                ctx.lineTo(widthPc(20 + i), heightPc(80) + 20);
+//                ctx.closePath();
+//                ctx.stroke();
+//
+//                ctx.font = '6px Arial';
+//                ctx.fillStyle = "#444";
+//                ctx.textAlign = "center";
+//                ctx.fillText((minVal + i).toString(), widthPc(20 + i), heightPc(80) + 20);
+            });
+        }
+
         dataJson.yAxis.elements.forEach(function(item, index) {
             var height = heightPc(12 + (9 * index));
-            var scale = maxVal - minVal;
+            var scale  = maxVal - minVal;
             item.timespans.forEach(function(ts) {
                 var startScale   = ts.start - minVal;
                 var startScalePc = startScale / scale * 75;
                 var endScale     = ts.end - minVal;
                 var endScalePc   = endScale / scale * 75;
 
-                if(isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
-                if(startScalePc > 75)                       startScalePc = 75;
-                if(isNaN(endScalePc) || endScalePc > 75)    endScalePc   = 75;
-                if(endScalePc < 0)                          endScalePc   = 0;
+                if (isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
+                if (startScalePc > 75)                       startScalePc = 75;
+                if (isNaN(endScalePc) || endScalePc > 75)    endScalePc   = 75;
+                if (endScalePc < 0)                          endScalePc   = 0;
 
                 ctx.beginPath();
                 ctx.strokeStyle = uniqueHexColors[index];
                 ctx.moveTo(widthPc(20 + startScalePc), height);
-                ctx.lineTo(widthPc(20 + endScalePc), height);
+                ctx.lineTo(widthPc(20 + endScalePc),   height);
                 ctx.closePath();
                 ctx.stroke();
             });
@@ -75,24 +112,24 @@ function redraw() {
                 var endScale     = ts.end - minVal;
                 var endScalePc   = endScale / scale * 75;
 
-                if(isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
-                if(startScalePc > 75)                       startScalePc = 75;
-                if(endScalePc > 75)                         endScalePc   = 75;
-                if(endScalePc < 0)                          endScalePc   = 0;
+                if (isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
+                if (startScalePc > 75)                       startScalePc = 75;
+                if (endScalePc > 75)                         endScalePc   = 75;
+                if (endScalePc < 0)                          endScalePc   = 0;
 
                 ctx.beginPath();
                 ctx.strokeStyle = uniqueHexColors[index];
                 ctx.moveTo(widthPc(20 + startScalePc), startHeight);
                 ctx.lineTo(widthPc(20 + startScalePc), endHeight);
-                if(!isNaN(endScalePc)) {
+                if (!isNaN(endScalePc)) {
                     ctx.moveTo(widthPc(20 + endScalePc), startHeight);
                     ctx.lineTo(widthPc(20 + endScalePc), endHeight);
                 }
                 ctx.closePath();
                 ctx.stroke();
-                //if(startScalePc < minWidth)                       startScalePc = minWidth;
-                //if(!isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
-                /////if(isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
+                //if (startScalePc < minWidth)                       startScalePc = minWidth;
+                //if (!isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
+                /////if (isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
             });
             
             ctx.save();
