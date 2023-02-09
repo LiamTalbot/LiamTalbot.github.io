@@ -1,4 +1,5 @@
 let dataJson = loadFile();
+let uniqueHexColors = ["#ff0099", "#00cc00", "#e6e600", "#6600cc", "#0099ff", "#993399", "#006633", "#cc9900", "#669933", "#ff99cc", "#330099", "#ff6600", "#9900cc", "#666633", "#ccccff"];
 
 function draw() {
     // Start listening to resize events and draw canvas.
@@ -26,7 +27,6 @@ function redraw() {
                 if (ts.start && ts.start > maxVal) maxVal = ts.start;
             });
         });
-        console.log(`x-axis : minVal is ${minVal} and maxVal is ${maxVal}`);
         dataJson.yAxis.elements.forEach(function(item) {
             item.timespans.forEach(function(ts) {
                 if (ts.start && ts.start < minVal) minVal = ts.start;
@@ -34,57 +34,79 @@ function redraw() {
                 if (ts.start && ts.start > maxVal) maxVal = ts.start;
             });
         });
-        console.log(`y-axis : minVal is ${minVal} and maxVal is ${maxVal}`);
-
-        dataJson.yAxis.elements.forEach(function(item, index) {
-            ctx.font = '24px Arial';
-            ctx.fillStyle = '#000';
-            ctx.textAlign = "right";
-            ctx.fillText(item.text, widthPc(19), heightPc(12 + (9 * index)));
-        });
-
-        dataJson.xAxis.elements.forEach(function(item, index) {
-            ctx.save();
-            wrapText(ctx, item.text, widthPc(23 + (5 * index)), heightPc(81), 260, 25);
-            ctx.restore();
-        });
 
         dataJson.yAxis.elements.forEach(function(item, index) {
             var height = heightPc(12 + (9 * index));
             var scale = maxVal - minVal;
             item.timespans.forEach(function(ts) {
-                var startScale = ts.start - minVal;
+                var startScale   = ts.start - minVal;
                 var startScalePc = startScale / scale * 75;
-                var endScale = ts.end - minVal;
-                var endScalePc = endScale / scale * 75;
+                var endScale     = ts.end - minVal;
+                var endScalePc   = endScale / scale * 75;
 
-                if(isNaN(startScalePc) || startScalePc < 0) {
-                    startScalePc = 0;
-                }
-                if(startScalePc > 75) {
-                    startScalePc = 75;
-                }
-                if(isNaN(endScalePc) || endScalePc > 75) {
-                    endScalePc = 75;
-                }
-                if(endScalePc < 0) {
-                    endScalePc = 0;
-                }
+                if(isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
+                if(startScalePc > 75)                       startScalePc = 75;
+                if(isNaN(endScalePc) || endScalePc > 75)    endScalePc   = 75;
+                if(endScalePc < 0)                          endScalePc   = 0;
 
                 ctx.beginPath();
+                ctx.strokeStyle = uniqueHexColors[index];
                 ctx.moveTo(widthPc(20 + startScalePc), height);
                 ctx.lineTo(widthPc(20 + endScalePc), height);
                 ctx.closePath();
                 ctx.stroke();
             });
+
+            ctx.font = '24px Arial';
+            ctx.fillStyle = uniqueHexColors[index];
+            ctx.textAlign = "right";
+            ctx.fillText(item.text, widthPc(19), heightPc(12 + (9 * index)));
+        });
+
+        dataJson.xAxis.elements.forEach(function(item, index) {
+            var startHeight = heightPc(5);
+            var endHeight = heightPc(80);
+            //var minWidth = widthPc(75);
+            //var maxWidth = widthPc(0);
+            var scale = maxVal - minVal;
+            item.timespans.forEach(function(ts) {
+                var startScale   = ts.start - minVal;
+                var startScalePc = startScale / scale * 75;
+                var endScale     = ts.end - minVal;
+                var endScalePc   = endScale / scale * 75;
+
+                if(isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
+                if(startScalePc > 75)                       startScalePc = 75;
+                if(endScalePc > 75)                         endScalePc   = 75;
+                if(endScalePc < 0)                          endScalePc   = 0;
+
+                ctx.beginPath();
+                ctx.strokeStyle = uniqueHexColors[index];
+                ctx.moveTo(widthPc(20 + startScalePc), startHeight);
+                ctx.lineTo(widthPc(20 + startScalePc), endHeight);
+                if(!isNaN(endScalePc)) {
+                    ctx.moveTo(widthPc(20 + endScalePc), startHeight);
+                    ctx.lineTo(widthPc(20 + endScalePc), endHeight);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                //if(startScalePc < minWidth)                       startScalePc = minWidth;
+                //if(!isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
+                /////if(isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
+            });
+            
+            ctx.save();
+            wrapText(ctx, item.text, widthPc(23 + (5 * index)), heightPc(81), 260, 25, index);
+            ctx.restore();
         });
     }
 }
 
-function wrapText(context, text, x, y, maxWidth, lineHeight) {
+function wrapText(context, text, x, y, maxWidth, lineHeight, index) {
     context.translate(x, y);
     context.rotate(300 * (Math.PI / 180));
     context.textAlign = "right";
+    context.fillStyle = uniqueHexColors[index];
     x = 0;
     y = 0;
     var words = text.split(' ');
