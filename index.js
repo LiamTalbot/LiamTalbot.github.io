@@ -22,16 +22,20 @@ function redraw() {
         var minVal = 9999, maxVal = 0;
         dataJson.xAxis.elements.forEach(function(item) {
             item.timespans.forEach(function(ts) {
-                if (ts.start && ts.start < minVal) minVal = ts.start;
-                if (ts.end   && ts.end > maxVal)   maxVal = ts.end;
-                if (ts.start && ts.start > maxVal) maxVal = ts.start;
+                let thisStart = getScaleValue(ts.start);
+                let thisEnd   = getScaleValue(ts.end);
+                if (thisStart && thisStart < minVal) minVal = thisStart;
+                if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+                if (thisStart && thisStart > maxVal) maxVal = thisStart;
             });
         });
         dataJson.yAxis.elements.forEach(function(item) {
             item.timespans.forEach(function(ts) {
-                if (ts.start && ts.start < minVal) minVal = ts.start;
-                if (ts.end   && ts.end > maxVal)   maxVal = ts.end;
-                if (ts.start && ts.start > maxVal) maxVal = ts.start;
+                let thisStart = getScaleValue(ts.start);
+                let thisEnd   = getScaleValue(ts.end);
+                if (thisStart && thisStart < minVal) minVal = thisStart;
+                if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+                if (thisStart && thisStart > maxVal) maxVal = thisStart;
             });
         });
 
@@ -45,16 +49,16 @@ function redraw() {
                 if (startScale > maxVal || startScalePc > 75) break;
 
                 ctx.beginPath();
-                ctx.strokeStyle = "#999";
+                ctx.strokeStyle = "#BBB";
                 ctx.moveTo(widthPc(20 + startScalePc), heightPc(80));
-                ctx.lineTo(widthPc(20 + startScalePc), heightPc(80) + 20);
+                ctx.lineTo(widthPc(20 + startScalePc), heightPc(80) + 10);
                 ctx.closePath();
                 ctx.stroke();
 
                 ctx.font = '12px Arial';
-                ctx.fillStyle = "#999";
+                ctx.fillStyle = "#BBB";
                 ctx.textAlign = "center";
-                ctx.fillText((minVal + i).toString(), widthPc(20 + startScalePc), heightPc(80) + 30);
+                ctx.fillText((minVal + i).toString(), widthPc(20 + startScalePc), heightPc(80) + 20);
             }
         } else if (dataJson.xAxis.scales != null && dataJson.xAxis.scales.length > 0) {
             dataJson.xAxis.scales.forEach(function(item, index) {
@@ -76,9 +80,11 @@ function redraw() {
             var height = heightPc(12 + (9 * index));
             var scale  = maxVal - minVal;
             item.timespans.forEach(function(ts) {
-                var startScale   = ts.start - minVal;
+                let thisStart = getScaleValue(ts.start);
+                let thisEnd   = getScaleValue(ts.end);
+                var startScale   = thisStart - minVal;
                 var startScalePc = startScale / scale * 75;
-                var endScale     = ts.end - minVal;
+                var endScale     = thisEnd - minVal;
                 var endScalePc   = endScale / scale * 75;
 
                 if (isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
@@ -102,14 +108,16 @@ function redraw() {
 
         dataJson.xAxis.elements.forEach(function(item, index) {
             var startHeight = heightPc(5);
-            var endHeight = heightPc(80);
-            //var minWidth = widthPc(75);
-            //var maxWidth = widthPc(0);
+            var endHeight   = heightPc(80);
+            var minWidth    = 9999;
+
             var scale = maxVal - minVal;
             item.timespans.forEach(function(ts) {
-                var startScale   = ts.start - minVal;
+                let thisStart = getScaleValue(ts.start);
+                let thisEnd   = getScaleValue(ts.end);
+                var startScale   = thisStart - minVal;
                 var startScalePc = startScale / scale * 75;
-                var endScale     = ts.end - minVal;
+                var endScale     = thisEnd - minVal;
                 var endScalePc   = endScale / scale * 75;
 
                 if (isNaN(startScalePc) || startScalePc < 0) startScalePc = 0;
@@ -127,13 +135,12 @@ function redraw() {
                 }
                 ctx.closePath();
                 ctx.stroke();
-                //if (startScalePc < minWidth)                       startScalePc = minWidth;
-                //if (!isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
-                /////if (isNaN(endScalePc) && endScalePc < maxWidth)   endScalePc = maxWidth;
+
+                if (startScalePc < minWidth) minWidth = startScalePc;
             });
             
             ctx.save();
-            wrapText(ctx, item.text, widthPc(23 + (5 * index)), heightPc(81), 260, 25, index);
+            wrapText(ctx, item.text, widthPc(20 + minWidth), heightPc(80) + 25, 260, 25, index);
             ctx.restore();
         });
     }
@@ -195,3 +202,36 @@ function resizeCanvas() {
 
 function heightPc(pc) { return window.innerHeight / 100 * pc; }
 function widthPc(pc)  { return window.innerWidth  / 100 * pc; }
+
+function isDate(val) {
+  return (new Date(val) !== "Invalid Date" && !isNaN(new Date(val)))
+}
+function isWholeNumber(val) {
+  if (typeof val === 'number' && val % 1 === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function getScaleValue(val) {
+    if (isWholeNumber(val)) return parseInt(val);
+    if (isDate(val)) {
+        let theDate = new Date(val);
+        let partYear = calculatePercentageThroughYear(theDate);
+        return parseFloat(theDate.getFullYear() + "." + partYear);
+    }
+    return undefined;
+}
+
+function calculatePercentageThroughYear(theDate) {
+    let daysInYear = 365;
+    let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let totalDaysPassed = 0;
+
+    for (let i = 0; i < theDate.getMonth() - 1; i++) {
+        totalDaysPassed += daysInMonth[i];
+    }
+    totalDaysPassed += theDate.getDay();
+
+    return (totalDaysPassed / daysInYear * 100).toFixed(2);
+}

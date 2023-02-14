@@ -9,7 +9,7 @@ const data = `{
                 "text": "Kill 'Em All",
                 "timespans": [
                     {
-                        "start": 1983,
+                        "start": "1983-07-25",
                         "category": "Album"
                     }
                 ]
@@ -18,7 +18,7 @@ const data = `{
                 "text": "Ride the Lightning",
                 "timespans": [
                     {
-                        "start": 1984,
+                        "start": "1984-07-27",
                         "category": "Album"
                     }
                 ]
@@ -27,7 +27,7 @@ const data = `{
                 "text": "Master of Puppets",
                 "timespans": [
                     {
-                        "start": 1986,
+                        "start": "1986-02-24",
                         "category": "Album"
                     }
                 ]
@@ -45,7 +45,7 @@ const data = `{
                 "text": "...And Justice for All",
                 "timespans": [
                     {
-                        "start": 1988,
+                        "start": "1988-08-25",
                         "category": "Album"
                     }
                 ]
@@ -63,7 +63,7 @@ const data = `{
                 "text": "Metallica",
                 "timespans": [
                     {
-                        "start": 1991,
+                        "start": "1991-08-12",
                         "category": "Album"
                     }
                 ]
@@ -72,7 +72,7 @@ const data = `{
                 "text": "Load",
                 "timespans": [
                     {
-                        "start": 1996,
+                        "start": "1996-06-04",
                         "category": "Album"
                     }
                 ]
@@ -81,7 +81,7 @@ const data = `{
                 "text": "Reload",
                 "timespans": [
                     {
-                        "start": 1997,
+                        "start": "1997-11-18",
                         "category": "Album"
                     }
                 ]
@@ -108,7 +108,7 @@ const data = `{
                 "text": "St. Anger",
                 "timespans": [
                     {
-                        "start": 2003,
+                        "start": "2003-06-05",
                         "category": "Album"
                     }
                 ]
@@ -117,7 +117,7 @@ const data = `{
                 "text": "Death Magnetic",
                 "timespans": [
                     {
-                        "start": 2008,
+                        "start": "2008-09-12",
                         "category": "Album"
                     }
                 ]
@@ -126,7 +126,7 @@ const data = `{
                 "text": "Hardwired...To Self-Destruct",
                 "timespans": [
                     {
-                        "start": 2016,
+                        "start": "2016-11-18",
                         "category": "Album"
                     }
                 ]
