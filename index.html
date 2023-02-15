@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
     <meta charset="utf-8" />
-    <title>Canvas tutorial</title>
+    <title>Dynamic Timeline</title>
     <script src="./metallica.js"></script>
     <script src="./index.js"></script>
     <style>
@@ -12,17 +12,15 @@
             margin: 0px;
             border: 0;
             overflow: hidden;
-            /*  Disable scrollbars */
             display: block;
-            /* No floating content on sides */
         }
-        canvas#tutorial {
+        canvas#dynamic-timeline {
             border: 1px solid black;
             background-color: #FFFFFF;
         }
     </style>
 </head>
-<body onload="draw();">
-    <canvas id="tutorial" style='position:absolute; left:0px; top:0px;'></canvas>
+<body onload="initialize();">
+    <canvas id="dynamic-timeline" style='position:absolute; left:0px; top:0px;'></canvas>
 </body>
 </html>
