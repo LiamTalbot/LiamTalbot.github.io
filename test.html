@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+   <head> 
+      <meta name="viewport" content="width=device-width, initial-scale=1"> 
+      
+      <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+      <style id="compiled-css" type="text/css">
+          #canvas{border:1px solid red;}
+      </style> 
+      <script type="text/javascript">
+    $(window).load(function(){//from w  w w.  j a v  a  2s.c om
+
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var $canvas = $("#canvas");
+var canvasOffset = $canvas.offset();
+var offsetX = canvasOffset.left;
+var offsetY = canvasOffset.top;
+var scrollX = $canvas.scrollLeft();
+var scrollY = $canvas.scrollTop();
+
+var circle = {
+    cx: 95,
+    cy: 50,
+    radius: 20,
+    blurColor: "#FF8C00",
+    hoverColor: "red",
+    wasInside: false,
+}
+
+drawCircle(circle, false);
+
+function drawCircle(circle, isInside) {
+    ctx.beginPath();
+    ctx.arc(circle.cx, circle.cy, circle.radius, 0, 2 * Math.PI);
+    ctx.fillStyle = isInside ? circle.hoverColor : circle.blurColor;
+    ctx.fill();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#2d2d2d';
+    ctx.stroke();
+    circle.wasInside = isInside;
+}
+function handleMouseMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var mouseX = parseInt(e.clientX - offsetX);
+    var mouseY = parseInt(e.clientY - offsetY);
+
+    var dx = mouseX - circle.cx;
+    var dy = mouseY - circle.cy;
+    var isInside = dx * dx + dy * dy <= circle.radius * circle.radius;
+
+    if (isInside && !circle.wasInside) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawCircle(circle, isInside);
+    } else if (!isInside && circle.wasInside) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawCircle(circle, isInside);
+    }
+}
+
+$("#canvas").mousemove(function (e) {
+    handleMouseMove(e);
+});
+    });
+
+      </script>
+
+      <script src="https://d3js.org/d3.v6.min.js"></script>
+      <script>
+        // Sample data for the line chart
+        const data = [
+          { x: 1, y: 5 },
+          { x: 2, y: 10 },
+          { x: 3, y: 8 },
+          { x: 4, y: 12 },
+          { x: 5, y: 6 },
+        ];
+    
+        // Function to create the line chart
+        function createLineChart() {
+          const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+          const width = 600 - margin.left - margin.right;
+          const height = 400 - margin.top - margin.bottom;
+    
+          const svg = d3.select("#chart-container")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+          const xScale = d3.scaleLinear()
+            .domain([1, data.length])
+            .range([0, width]);
+    
+          const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.y)])
+            .range([height, 0]);
+    
+          const line = d3.line()
+            .x(d => xScale(d.x))
+            .y(d => yScale(d.y));
+    
+          svg.append("g")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(xScale));
+    
+          svg.append("g")
+            .call(d3.axisLeft(yScale));
+    
+          svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "blue")
+            .attr("stroke-width", 2)
+            .attr("d", line);
+    
+          // Adding circles for data points to make the chart interactive
+          svg.selectAll(".data-point")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "data-point")
+            .attr("cx", d => xScale(d.x))
+            .attr("cy", d => yScale(d.y))
+            .attr("r", 5)
+            .attr("fill", "blue")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
+        }
+    
+        // Mouseover event handler
+        function handleMouseOver(event, d) {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 8)
+            .attr("fill", "orange");
+        }
+    
+        // Mouseout event handler
+        function handleMouseOut(event, d) {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 5)
+            .attr("fill", "blue");
+        }
+    
+        // Call the function to create the line chart when the page loads
+        window.addEventListener("load", createLineChart);
+      </script>
+
+
+   </head> 
+   <body> 
+      <h4>Hover mouse over circle.</h4> 
+
+      <canvas id="canvas" width="300" height="300"></canvas>
+
+      <svg id="chart-container" width="600" height="400"></svg>
+   </body>
+</html>

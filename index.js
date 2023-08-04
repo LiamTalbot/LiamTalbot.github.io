@@ -110,7 +110,6 @@ function renderTheXAxisScale(ctx, scaleJump, minVal, maxVal, scales) {
 }
 function renderTheYAxisElements(ctx, elements, minVal, maxVal) {
     elements.forEach(function(item, index) {
-        var height = heightPc(12 + (9 * index));
         var scale  = maxVal - minVal;
         item.timespans.forEach(function(ts) {
             let thisStart = getScaleValue(ts.start);
@@ -125,24 +124,19 @@ function renderTheYAxisElements(ctx, elements, minVal, maxVal) {
             if (isNaN(endScalePc) || endScalePc > 75)    endScalePc   = 75;
             if (endScalePc < 0)                          endScalePc   = 0;
 
-            ctx.fillStyle = uniqueHexColors[index];
-            ctx.fillRect(widthPc(20 + startScalePc), height - 20, widthPc(20 + endScalePc) - widthPc(20 + startScalePc), 20);
-            
-            
-            
-            //ctx.beginPath();
-            //ctx.strokeStyle = uniqueHexColors[index];
-            //ctx.moveTo(widthPc(20 + startScalePc), height);
-            //ctx.lineTo(widthPc(20 + endScalePc),   height);
-            //ctx.closePath();
-            //ctx.stroke();
+            renderYAxisElement(ctx, index, startScalePc, endScalePc, ts.priority | 0);
         });
 
-        ctx.font = '24px Arial';
-        ctx.fillStyle = uniqueHexColors[index];
-        ctx.textAlign = "right";
-        ctx.fillText(item.text, widthPc(19), heightPc(12 + (9 * index)));
+        ctx.save();
+        wrapText(ctx, item.text, widthPc(20), heightPc(12 + (9 * index)), 260, 25, 0, index);
+        ctx.restore();
     });    
+}
+function renderYAxisElement(ctx, index, startScalePc, endScalePc, priority) {
+    var priorityOffset = (3 * priority);
+    var height = heightPc(12 + (9 * index));
+    ctx.fillStyle = uniqueHexColors[index + priority];
+    ctx.fillRect(widthPc(20 + startScalePc), height - 20 + priorityOffset, widthPc(20 + endScalePc) - widthPc(20 + startScalePc), 20 - (priorityOffset * 2));
 }
 function renderTheXAxisElements(ctx, elements, minVal, maxVal) {
     elements.forEach(function(item, index) {
@@ -177,18 +171,19 @@ function renderTheXAxisElements(ctx, elements, minVal, maxVal) {
 
             if (startScalePc < minWidth) minWidth = startScalePc;
         });
-        
+
         ctx.save();
-        wrapText(ctx, item.text, widthPc(20 + minWidth), heightPc(80) + 25, 260, 25, index);
+        wrapText(ctx, item.text, widthPc(20 + minWidth), heightPc(80) + 25, 260, 25, 320, index);
         ctx.restore();
     });
 }
 
-function wrapText(context, text, x, y, maxWidth, lineHeight, index) {
-    context.translate(x, y);
-    context.rotate(300 * (Math.PI / 180));
-    context.textAlign = "right";
-    context.fillStyle = uniqueHexColors[index];
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, rotation, index) {
+    ctx.translate(x, y);
+    ctx.rotate(rotation * (Math.PI / 180));
+    ctx.font = '16px Arial';
+    ctx.textAlign = "right";
+    ctx.fillStyle = uniqueHexColors[index];
     x = 0;
     y = 0;
     var words = text.split(' ');
@@ -196,10 +191,10 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, index) {
 
     for(var n = 0; n < words.length; n++) {
         var testLine = line + words[n] + ' ';
-        var metrics = context.measureText(testLine);
+        var metrics = ctx.measureText(testLine);
         var testWidth = metrics.width;
         if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
+            ctx.fillText(line, x, y);
             line = words[n] + ' ';
             y += lineHeight;
         }
@@ -207,7 +202,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, index) {
             line = testLine;
         }
     }
-    context.fillText(line, x, y);
+    ctx.fillText(line, x, y);
 }
 
 function heightPc(pc) { return window.innerHeight / 100 * pc; }
@@ -228,7 +223,7 @@ function getScaleValue(val) {
     if (isDate(val)) {
         let theDate = new Date(val);
         let partYear = calculatePercentageThroughYear(theDate);
-        return parseFloat(theDate.getFullYear() + "." + partYear);
+        return parseFloat(theDate.getFullYear() + partYear);
     }
     return undefined;
 }
@@ -238,10 +233,10 @@ function calculatePercentageThroughYear(theDate) {
     let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     let totalDaysPassed = 0;
 
-    for (let i = 0; i < theDate.getMonth() - 1; i++) {
+    for (let i = 0; i < theDate.getMonth(); i++) {
         totalDaysPassed += daysInMonth[i];
     }
     totalDaysPassed += theDate.getDay();
 
-    return (totalDaysPassed / daysInYear * 100).toFixed(2);
+    return totalDaysPassed / daysInYear;
 }
