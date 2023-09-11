@@ -22,11 +22,93 @@ function initialize() {
 function resizeCanvasAndRender() {
     const canvas = document.getElementById("dynamic-timeline");
     if (!canvas) throw new Error("Canvas not found.");
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.setAttribute('width', window.innerWidth);
+    canvas.setAttribute('height', window.innerHeight);
     render(canvas);
 }
 
+function render(canvas) {
+    // Set up the SVG container
+    const svg = d3.select("#dynamic-timeline");
+    svg.selectAll("*").remove();
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+    const margin = { top: 20, right: 20, bottom: 100, left: 150 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    const dataJson = loadData();
+    const domain = getDomain(dataJson);
+
+    // Create scales for X and Y axes
+    const xScale = d3.scaleLinear()
+      .domain(domain)
+      .range([0, innerWidth]);
+
+    const yScale = d3.scaleBand()
+      .domain(dataJson.yAxis.elements.map(d => d.text))
+      .range([0, innerHeight])
+      .padding(0.2);
+
+    // Create X and Y axes
+    const xAxis = d3.axisBottom(xScale)
+      .tickFormat(d3.format("d")); // Format X-axis labels as years
+
+    const yAxis = d3.axisLeft(yScale);
+
+    // Create a group for the chart and translate it to the appropriate position
+    const chart = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Render X and Y axes
+    chart.append("g")
+      .call(xAxis)
+      .attr("transform", `translate(0, ${innerHeight})`)
+      .selectAll(".tick text")
+      .attr("class", "axis-label");
+
+    chart.append("g")
+      .call(yAxis)
+      .selectAll(".tick text")
+      .attr("class", "event-label");
+
+    // Render the dataJson as bars with varying lengths
+    chart.selectAll(".event")
+      .data(dataJson.yAxis.elements)
+      .enter().append("rect")
+      .attr("class", "event")
+      .attr("x", d => xScale(getScaleValue(d.timespans[0].start) || domain[0])) // Convert months to fractions of a year
+      .attr("y", d => yScale(d.text))
+      .attr("width", d => xScale(getScaleValue(d.timespans[0].end) || domain[1]) - xScale(getScaleValue(d.timespans[0].start) || domain[0]))
+      .attr("height", yScale.bandwidth());
+}
+
+function getDomain(dataJson) {
+    var minVal = 9999, maxVal = 0;
+    dataJson.xAxis.elements.forEach(function(item) {
+        item.timespans.forEach(function(ts) {
+            let thisStart = getScaleValue(ts.start);
+            let thisEnd   = getScaleValue(ts.end);
+            if (thisStart && thisStart < minVal) minVal = thisStart;
+            if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+            if (thisStart && thisStart > maxVal) maxVal = thisStart;
+        });
+    });
+    dataJson.yAxis.elements.forEach(function(item) {
+        item.timespans.forEach(function(ts) {
+            let thisStart = getScaleValue(ts.start);
+            let thisEnd   = getScaleValue(ts.end);
+            if (thisStart && thisStart < minVal) minVal = thisStart;
+            if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+            if (thisStart && thisStart > maxVal) maxVal = thisStart;
+        });
+    });
+    return [ minVal, maxVal ];
+}
+
+
+
+/******
 function render(canvas) {
     if (!canvas.getContext) throw new Error("No canvas with 2D context found.");
     const ctx = canvas.getContext("2d");
@@ -207,7 +289,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight, rotation, index) {
 
 function heightPc(pc) { return window.innerHeight / 100 * pc; }
 function widthPc(pc)  { return window.innerWidth  / 100 * pc; }
-
+******/
 function isDate(val) {
   return (new Date(val) !== "Invalid Date" && !isNaN(new Date(val)))
 }

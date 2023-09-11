@@ -1,103 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Canvas vs SVG Bar Charts</title>
+  <title>Horizontal Event Timeline with Start and End Dates</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* Add some basic CSS styles for better visualization */
+    .timeline {
+      font-family: Arial, sans-serif;
+    }
+
+    .event {
+      fill: #3498db;
+    }
+
+    .event-label {
+      font-size: 14px;
+    }
+
+    .axis-label {
+      font-size: 12px;
+    }
+  </style>
 </head>
 <body>
-  <h2>Canvas Bar Chart</h2>
-  <canvas id="canvas-chart" width="400" height="300"></canvas>
-
-  <h2>SVG Bar Chart</h2>
-  <svg id="svg-chart" width="400" height="300"></svg>
+  <svg class="timeline" width="800" height="400"></svg>
 
   <script>
-    // Sample data for the bar charts
-    const data = [
-      { label: 'A', value: 40 },
-      { label: 'B', value: 70 },
-      { label: 'C', value: 50 },
-      { label: 'D', value: 90 },
-      { label: 'E', value: 60 },
+    // Sample data for the event timeline with start and end dates
+    const events = [
+      { startYear: 2000, startMonth: 3, endYear: 2001, endMonth: 5, event: "Event 1" },
+      { startYear: 2005, startMonth: 7, endYear: 2006, endMonth: 2, event: "Event 2" },
+      { startYear: 2010, startMonth: 9, endYear: 2012, endMonth: 1, event: "Event 3" },
+      { startYear: 2015, startMonth: 4, endYear: 2016, endMonth: 8, event: "Event 4" },
+      { startYear: 2020, startMonth: 2, endYear: 2021, endMonth: 10, event: "Event 5" },
     ];
 
-    // Function to create the canvas bar chart
-    function createCanvasBarChart() {
-      const canvas = document.getElementById('canvas-chart');
-      const ctx = canvas.getContext('2d');
+    // Set up the SVG container
+    const svg = d3.select("svg");
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
 
-      const width = canvas.width;
-      const height = canvas.height;
+    // Create scales for X and Y axes
+    const xScale = d3.scaleLinear()
+      .domain([2000, 2025]) // Adjust the domain as needed
+      .range([0, innerWidth]);
 
-      const barWidth = width / data.length;
+    const yScale = d3.scaleBand()
+      .domain(events.map(d => d.event))
+      .range([0, innerHeight])
+      .padding(0.2);
 
-      // Clear the canvas
-      ctx.clearRect(0, 0, width, height);
+    // Create X and Y axes
+    const xAxis = d3.axisBottom(xScale)
+      .tickFormat(d3.format("d")); // Format X-axis labels as years
 
-      // Find the maximum value to scale the bars properly
-      const max = d3.max(data, d => d.value);
+    const yAxis = d3.axisLeft(yScale);
 
-      data.forEach((d, i) => {
-        const barHeight = (d.value / max) * height;
-        const x = i * barWidth;
-        const y = height - barHeight;
-        const barColor = `rgb(0, 120, ${Math.floor(255 * (i / data.length))})`;
+    // Create a group for the chart and translate it to the appropriate position
+    const chart = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        ctx.fillStyle = barColor;
-        ctx.fillRect(x, y, barWidth, barHeight);
+    // Render X and Y axes
+    chart.append("g")
+      .call(xAxis)
+      .attr("transform", `translate(0, ${innerHeight})`)
+      .selectAll(".tick text")
+      .attr("class", "axis-label");
 
-        // Add label
-        ctx.fillStyle = 'black';
-        ctx.fillText(d.label, x + barWidth / 2, height - 10);
-      });
-    }
+    chart.append("g")
+      .call(yAxis)
+      .selectAll(".tick text")
+      .attr("class", "event-label");
 
-    // Function to create the SVG bar chart
-    function createSvgBarChart() {
-      const svg = d3.select('#svg-chart');
-      const width = +svg.attr('width');
-      const height = +svg.attr('height');
+    // Render the events as bars with varying lengths
+    chart.selectAll(".event")
+      .data(events)
+      .enter().append("rect")
+      .attr("class", "event")
+      .attr("x", d => xScale(d.startYear + d.startMonth / 12)) // Convert months to fractions of a year
+      .attr("y", d => yScale(d.event))
+      .attr("width", d => xScale(d.endYear + d.endMonth / 12) - xScale(d.startYear + d.startMonth / 12))
+      .attr("height", yScale.bandwidth());
 
-      // Find the maximum value to scale the bars properly
-      const max = d3.max(data, d => d.value);
-
-      const xScale = d3.scaleBand()
-        .domain(data.map(d => d.label))
-        .range([0, width])
-        .padding(0.1);
-
-      const yScale = d3.scaleLinear()
-        .domain([0, max])
-        .range([height, 0]);
-
-      const bars = svg.selectAll('.bar')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('class', 'bar')
-        .attr('x', d => xScale(d.label))
-        .attr('y', d => yScale(d.value))
-        .attr('width', xScale.bandwidth())
-        .attr('height', d => height - yScale(d.value))
-        .attr('fill', (d, i) => `rgb(0, 120, ${Math.floor(255 * (i / data.length))})`);
-
-      // Add labels
-      svg.selectAll('.label')
-        .data(data)
-        .enter()
-        .append('text')
-        .attr('class', 'label')
-        .attr('x', d => xScale(d.label) + xScale.bandwidth() / 2)
-        .attr('y', d => yScale(d.value) - 5)
-        .attr('text-anchor', 'middle')
-        .text(d => d.label);
-    }
-
-    // Call the functions to create the bar charts when the page loads
-    window.addEventListener('load', () => {
-      createCanvasBarChart();
-      createSvgBarChart();
-    });
   </script>
 </body>
 </html>

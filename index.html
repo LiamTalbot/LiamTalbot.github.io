@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Dynamic Timeline</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="./metallica.js"></script>
     <script src="./index.js"></script>
     <style>
@@ -14,13 +15,14 @@
             overflow: hidden;
             display: block;
         }
-        canvas#dynamic-timeline {
+        #dynamic-timeline {
             border: 1px solid black;
             background-color: #FFFFFF;
         }
     </style>
 </head>
 <body onload="initialize();">
-    <canvas id="dynamic-timeline" style='position:absolute; left:0px; top:0px;'></canvas>
+    <!--<canvas id="dynamic-timeline" style='position:absolute; left:0px; top:0px;'></canvas>-->
+    <svg id="dynamic-timeline" style='position:absolute; left:0px; top:0px;' width="800" height="400"></svg>
 </body>
 </html>
