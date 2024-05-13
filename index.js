@@ -2,7 +2,7 @@ function loadData() {
     //const dataObjectFromFile = require('./metallica.json');
     //console.log(dataObjectFromFile);
     
-    
+    // data defined as a variable in test metallica.js
     return JSON.parse(data);
     //console.log(jsonData.text);
     //fetch('./metallica.json').then((response) => response.json())
@@ -12,14 +12,34 @@ let uniqueHexColors = ["#FF0099", "#00CC00", "#E6E600", "#6600CC", "#0099FF", "#
 
 function initialize() {
     // Register an event listener to call the function each time the window is resized.
-    window.addEventListener('resize', resizeCanvasAndRender, false);
+    window.addEventListener('resize', debounce(resizeCanvasAndRender, 250), false);
     // Draw canvas border for the first time.
     resizeCanvasAndRender();
 }
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window,
 // then draws the new borders accordingly.
-function resizeCanvasAndRender() {
+async function resizeCanvasAndRender(resizing) {
     const canvas = document.getElementById("dynamic-timeline");
     if (!canvas) throw new Error("Canvas not found.");
     canvas.setAttribute('width', window.innerWidth);
