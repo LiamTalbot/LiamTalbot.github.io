@@ -7,7 +7,7 @@ const data = `{
         "elements": [
             {
                 "text": "Kill 'Em All",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1983-07-25",
                         "category": "Album"
@@ -16,7 +16,7 @@ const data = `{
             },
             {
                 "text": "Ride the Lightning",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1984-07-27",
                         "category": "Album"
@@ -25,7 +25,7 @@ const data = `{
             },
             {
                 "text": "Master of Puppets",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1986-02-24",
                         "category": "Album"
@@ -34,7 +34,7 @@ const data = `{
             },
             {
                 "text": "Garage Days Re-Revisited",
-                "timespans": [
+                "spans": [
                     {
                         "start": 1987,
                         "category": "EP"
@@ -43,7 +43,7 @@ const data = `{
             },
             {
                 "text": "...And Justice for All",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1988-08-25",
                         "category": "Album"
@@ -52,7 +52,7 @@ const data = `{
             },
             {
                 "text": "The $5.98 E.P.: Garage Days Re-Revisited",
-                "timespans": [
+                "spans": [
                     {
                         "start": 1988,
                         "category": "EP"
@@ -61,7 +61,7 @@ const data = `{
             },
             {
                 "text": "Metallica",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1991-08-12",
                         "category": "Album"
@@ -70,7 +70,7 @@ const data = `{
             },
             {
                 "text": "Load",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1996-06-04",
                         "category": "Album"
@@ -79,7 +79,7 @@ const data = `{
             },
             {
                 "text": "Reload",
-                "timespans": [
+                "spans": [
                     {
                         "start": "1997-11-18",
                         "category": "Album"
@@ -88,7 +88,7 @@ const data = `{
             },
             {
                 "text": "Garage Inc.",
-                "timespans": [
+                "spans": [
                     {
                         "start": 1998,
                         "category": "Album"
@@ -97,7 +97,7 @@ const data = `{
             },
             {
                 "text": "S&M",
-                "timespans": [
+                "spans": [
                     {
                         "start": 1999,
                         "category": "Album"
@@ -106,7 +106,7 @@ const data = `{
             },
             {
                 "text": "St. Anger",
-                "timespans": [
+                "spans": [
                     {
                         "start": "2003-06-05",
                         "category": "Album"
@@ -115,7 +115,7 @@ const data = `{
             },
             {
                 "text": "Death Magnetic",
-                "timespans": [
+                "spans": [
                     {
                         "start": "2008-09-12",
                         "category": "Album"
@@ -124,7 +124,7 @@ const data = `{
             },
             {
                 "text": "Hardwired...To Self-Destruct",
-                "timespans": [
+                "spans": [
                     {
                         "start": "2016-11-18",
                         "category": "Album"
@@ -133,7 +133,7 @@ const data = `{
             },
             {
                 "text": "Lords of Summer",
-                "timespans": [
+                "spans": [
                     {
                         "start": 2014,
                         "category": "Single"
@@ -148,7 +148,7 @@ const data = `{
             {
                 "text": "James Hetfield",
                 "position": 0,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1981,
                         "category": "Lead Vocals",
@@ -164,7 +164,7 @@ const data = `{
             {
                 "text": "Lars Ulrich",
                 "position": 1,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1981,
                         "category": "Drums"
@@ -174,7 +174,7 @@ const data = `{
             {
                 "text": "Kirk Hammett",
                 "position": 2,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1983,
                         "category": "Lead Guitar"
@@ -184,7 +184,7 @@ const data = `{
             {
                 "text": "Jason Newstead",
                 "position": 3,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1986,
                         "end": 2001,
@@ -195,7 +195,7 @@ const data = `{
             {
                 "text": "Dave Mustaine",
                 "position": 4,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1981,
                         "end": 1983,
@@ -206,7 +206,7 @@ const data = `{
             {
                 "text": "Cliff Burton",
                 "position": 5,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1982,
                         "end": 1986,
@@ -217,7 +217,7 @@ const data = `{
             {
                 "text": "Robert Trujillo",
                 "position": 6,
-                "timespans": [
+                "spans": [
                     {
                         "start": 2003,
                         "category": "Bass Guitar"
@@ -227,7 +227,7 @@ const data = `{
             {
                 "text": "Ron McGovney",
                 "position": 7,
-                "timespans": [
+                "spans": [
                     {
                         "start": 1982,
                         "end": 1983,
