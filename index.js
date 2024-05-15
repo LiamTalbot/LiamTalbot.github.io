@@ -58,6 +58,7 @@ function render(canvas) {
     const innerHeight = height - margin.top - margin.bottom;
 
     const dataJson = loadData();
+    const categories = dataJson.categories;
     const domain = getDomain(dataJson);
 
     // Create scales for X and Y axes
@@ -97,6 +98,8 @@ function render(canvas) {
       .data(dataJson.yAxis.elements)
       .enter().append("rect")
       .attr("class", "event")
+      .attr("stroke", d => categories.find(a => a.category === d.timespans[0].category).appearances[0].colour)
+      .attr("fill", d => categories.find(a => a.category === d.timespans[0].category).appearances[0].colour)
       .attr("x", d => xScale(getScaleValue(d.timespans[0].start) || domain[0])) // Convert months to fractions of a year
       .attr("y", d => yScale(d.text))
       .attr("width", d => xScale(getScaleValue(d.timespans[0].end) || domain[1]) - xScale(getScaleValue(d.timespans[0].start) || domain[0]))

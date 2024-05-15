@@ -243,31 +243,85 @@ const data = `{
             "appearances": [
                 {
                     "priority": 0,
-                    "colour": "",
+                    "colour": "#FF0099",
                     "style": ""
                 }
             ]
         },
         {
-            "category": "Lead Guitar"
+            "category": "Lead Guitar",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#00CC00",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "Bass Guitar"
+            "category": "Bass Guitar",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#E6E600",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "Rhythm Guitar"
+            "category": "Rhythm Guitar",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#6600CC",
+                    "style": ""
+                },
+                {
+                    "priority": 1,
+                    "colour": "#669933",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "Drums"
+            "category": "Drums",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#0099FF",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "Album"
+            "category": "Album",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#993399",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "EP"
+            "category": "EP",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#006633",
+                    "style": ""
+                }
+            ]
         },
         {
-            "category": "Single"
+            "category": "Single",
+            "appearances": [
+                {
+                    "priority": 0,
+                    "colour": "#CC9900",
+                    "style": ""
+                }
+            ]
         }
     ]
 }`;
