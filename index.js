@@ -93,51 +93,70 @@ function render(canvas) {
       .selectAll(".tick text")
       .attr("class", "span-label");
 
-    // Render the y-axis spans
-    chart.selectAll(".span")
-      .data(dataJson.yAxis.elements)
-      .enter().append("rect")
-      .attr("class", "span")
-      .attr("stroke", d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
-      .attr("fill", d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
-      .attr("x", d => xScale(getScaleValue(d.spans[0].start) || domain[0])) // Convert months to fractions of a year
-      .attr("y", d => yScale(d.text))
-      .attr("width", d => xScale(getScaleValue(d.spans[0].end) || domain[1]) - xScale(getScaleValue(d.spans[0].start) || domain[0]))
-      .attr("height", yScale.bandwidth());
+    var blah3 = chart.append("g").attr("class", "periods");
+    const periodGroups = [];
+    dataJson.yAxis.elements.forEach(function(item) {
+      var blah4 = blah3.append("g").attr("class", "period");
+      blah4.selectAll(".period-bar")
+        .data([item])
+        .enter().append("rect")
+        .attr("class", "period-bar")
+        .attr("stroke", d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
+        .attr("fill", d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
+        .attr("x", d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
+        .attr("y", d => yScale(d.text))
+        .attr("width", d => xScale(getScaleValue(d.spans[0].end) || domain[1]) - xScale(getScaleValue(d.spans[0].start) || domain[0]))
+        .attr("height", yScale.bandwidth());
+      periodGroups.push(blah4);
+    });
 
-    // Render the x-axis events
-    chart.selectAll(".event")
-        .data(dataJson.xAxis.elements)
+    var blah1 = chart.append("g").attr("class", "events");
+    const eventGroups = [];
+    dataJson.xAxis.elements.forEach(function(item) {
+      var blah2 = blah1.append("g").attr("class", "event");
+      blah2.selectAll(".event-bar")
+        .data([item])
         .enter().append("line")
-        .attr("class", "event")
+        .attr("class", "event-bar")
         .attr("stroke", d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
         .attr("x1", d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
         .attr("y1", 0)
         .attr("x2", d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
         .attr("y2", 0 + innerHeight);
+      blah2.selectAll(".event-text")
+        .data([item])
+        .enter().append("text")
+        .attr("class", "event-text")
+        .attr("x", d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
+        .attr("y", 0 + innerHeight)
+        .text(d => { return d.text; });
+      eventGroups.push(blah2);
+    });
+
+    //debugger;
 }
 
 function getDomain(dataJson) {
-    var minVal = 9999, maxVal = 0;
-    dataJson.xAxis.elements.forEach(function(item) {
-        item.spans.forEach(function(s) {
-            let thisStart = getScaleValue(s.start);
-            let thisEnd   = getScaleValue(s.end);
-            if (thisStart && thisStart < minVal) minVal = thisStart;
-            if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
-            if (thisStart && thisStart > maxVal) maxVal = thisStart;
-        });
+  var minVal = 9999, maxVal = 0;
+  dataJson.xAxis.elements.forEach(function(item) {
+    item.spans.forEach(function(s) {
+      let thisStart = getScaleValue(s.start);
+      let thisEnd   = getScaleValue(s.end);
+      if (thisStart && thisStart < minVal) minVal = thisStart;
+      if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+      if (thisStart && thisStart > maxVal) maxVal = thisStart;
     });
-    dataJson.yAxis.elements.forEach(function(item) {
-        item.spans.forEach(function(s) {
-            let thisStart = getScaleValue(s.start);
-            let thisEnd   = getScaleValue(s.end);
-            if (thisStart && thisStart < minVal) minVal = thisStart;
-            if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
-            if (thisStart && thisStart > maxVal) maxVal = thisStart;
-        });
+  });
+  dataJson.yAxis.elements.forEach(function(item) {
+    item.spans.forEach(function(s) {
+      let thisStart = getScaleValue(s.start);
+      let thisEnd   = getScaleValue(s.end);
+      if (thisStart && thisStart < minVal) minVal = thisStart;
+      if (thisEnd   && thisEnd > maxVal)   maxVal = thisEnd;
+      if (thisStart && thisStart > maxVal) maxVal = thisStart;
     });
-    return [ minVal, maxVal ];
+  });
+  return [ minVal, maxVal ];
 }
 
 function isDate(val) {
@@ -151,24 +170,24 @@ function isWholeNumber(val) {
   }
 }
 function getScaleValue(val) {
-    if (isWholeNumber(val)) return parseInt(val);
-    if (isDate(val)) {
-        let theDate = new Date(val);
-        let partYear = calculatePercentageThroughYear(theDate);
-        return parseFloat(theDate.getFullYear() + partYear);
-    }
-    return undefined;
+  if (isWholeNumber(val)) return parseInt(val);
+  if (isDate(val)) {
+    let theDate = new Date(val);
+    let partYear = calculatePercentageThroughYear(theDate);
+    return parseFloat(theDate.getFullYear() + partYear);
+  }
+  return undefined;
 }
 
 function calculatePercentageThroughYear(theDate) {
-    let daysInYear = 365;
-    let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let totalDaysPassed = 0;
+  let daysInYear = 365;
+  let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let totalDaysPassed = 0;
 
-    for (let i = 0; i < theDate.getMonth(); i++) {
-        totalDaysPassed += daysInMonth[i];
-    }
-    totalDaysPassed += theDate.getDay();
+  for (let i = 0; i < theDate.getMonth(); i++) {
+    totalDaysPassed += daysInMonth[i];
+  }
+  totalDaysPassed += theDate.getDay();
 
-    return totalDaysPassed / daysInYear;
+  return totalDaysPassed / daysInYear;
 }
