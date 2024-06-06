@@ -1,4 +1,4 @@
-const data = `{
+dataSets.push(JSON.parse(`{
     "text": "Metallica",
     "xAxis": {
         "text": "Releases",
@@ -324,4 +324,4 @@ const data = `{
             ]
         }
     ]
-}`;
+}`));

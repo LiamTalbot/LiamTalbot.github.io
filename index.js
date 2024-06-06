@@ -1,13 +1,3 @@
-function loadData() {
-    //const dataObjectFromFile = require('./metallica.json');
-    //console.log(dataObjectFromFile);
-    
-    // data defined as a variable in test metallica.js
-    return JSON.parse(data);
-    //console.log(jsonData.text);
-    //fetch('./metallica.json').then((response) => response.json())
-    //                    .then((json) => console.log(json));
-}
 let uniqueHexColors = ['#FF0099', '#00CC00', '#E6E600', '#6600CC', '#0099FF', '#993399', '#006633', '#CC9900', '#669933', '#FF99CC', '#330099', '#FF6600', '#9900CC', '#666633', '#CCCCFF'];
 
 function initialize() {
@@ -39,7 +29,7 @@ function debounce(func, wait, immediate) {
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window,
 // then draws the new borders accordingly.
-async function resizeCanvasAndRender(resizing) {
+function resizeCanvasAndRender() {
     const canvas = document.getElementById('dynamic-timeline');
     if (!canvas) throw new Error('Canvas not found.');
     canvas.setAttribute('width', window.innerWidth);
@@ -48,8 +38,7 @@ async function resizeCanvasAndRender(resizing) {
 }
 
 function render(canvas) {
-    // Set up the SVG container
-    const svg = d3.select('#dynamic-timeline');
+    const svg = d3.select('#' + canvas.id);
     svg.selectAll('*').remove();
     const width = +svg.attr('width');
     const height = +svg.attr('height');
@@ -57,7 +46,7 @@ function render(canvas) {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    const dataJson = loadData();
+    const dataJson = dataSets[0];
     const categories = dataJson.categories;
     const domain = getDomain(dataJson);
 
@@ -73,7 +62,8 @@ function render(canvas) {
 
     // Create X and Y axes
     const xAxis = d3.axisBottom(xScale)
-      .tickFormat(d3.format('d')); // Format X-axis labels as years
+      .tickFormat(d3.format('d')) // Format X-axis labels as years
+      .ticks(Math.round(domain[1] - domain[0]));
 
     const yAxis = d3.axisLeft(yScale);
 
@@ -105,7 +95,7 @@ function render(canvas) {
           .attr('class', 'period-bar')
           .attr('stroke', d => categories.find(a => a.category === d.category).appearances[0].colour)
           .attr('fill', d => categories.find(a => a.category === d.category).appearances[0].colour)
-          .attr('x', d => xScale(getScaleValue(d.start) || domain[0]))
+          .attr('x', d => Math.max(xScale(getScaleValue(d.start) || domain[0]), 1))
           .attr('y', d => yScale(item.text) + ((yScale.bandwidth() / 100 * 15) * (d.priority || 0)))
           .attr('width', d => xScale(getScaleValue(d.end) || domain[1]) - xScale(getScaleValue(d.start) || domain[0]))
           .attr('height', d => yScale.bandwidth() - ((yScale.bandwidth() / 100 * 30) * (d.priority || 0)));

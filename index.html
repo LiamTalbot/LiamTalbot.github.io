@@ -3,9 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <title>Dynamic Timeline</title>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>const dataSets = [];</script>
     <script src="./metallica.js"></script>
+
     <script src="./index.js"></script>
+
     <style>
         html, body {
             width: 100%;
@@ -22,7 +27,6 @@
     </style>
 </head>
 <body onload="initialize();">
-    <!--<canvas id="dynamic-timeline" style='position:absolute; left:0px; top:0px;'></canvas>-->
     <svg id="dynamic-timeline" style='position:absolute; left:0px; top:0px;' width="800" height="400"></svg>
 </body>
 </html>
