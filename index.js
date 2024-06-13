@@ -29,15 +29,16 @@ function debounce(func, wait, immediate) {
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window,
 // then draws the new borders accordingly.
-function resizeCanvasAndRender() {
+function resizeCanvasAndRender(index) {
     const canvas = document.getElementById('dynamic-timeline');
     if (!canvas) throw new Error('Canvas not found.');
+    if (!index && index !== 0) { canvas.style.display = 'none'; return; } else canvas.style.display = 'block';
     canvas.setAttribute('width', window.innerWidth);
-    canvas.setAttribute('height', window.innerHeight);
-    render(canvas);
+    canvas.setAttribute('height', window.innerHeight - 50);
+    render(canvas, index);
 }
 
-function render(canvas) {
+function render(canvas, index) {
     const svg = d3.select('#' + canvas.id);
     svg.selectAll('*').remove();
     const width = +svg.attr('width');
@@ -46,7 +47,7 @@ function render(canvas) {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    const dataJson = dataSets[0];
+    const dataJson = dataSets[index];
     const categories = dataJson.categories;
     const domain = getDomain(dataJson);
 

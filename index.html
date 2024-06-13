@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>Dynamic Timeline</title>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script>const dataSets = [];</script>
@@ -21,12 +23,111 @@
             display: block;
         }
         #dynamic-timeline {
-            border: 1px solid black;
+            border: 0px solid black;
             background-color: #FFFFFF;
         }
     </style>
 </head>
-<body onload="initialize();">
-    <svg id="dynamic-timeline" style='position:absolute; left:0px; top:0px;' width="800" height="400"></svg>
+<body onload="initialize()">
+    <div class="flex justify-center">
+        <div
+            x-data="{
+                open: false,
+                options: dataSets,
+                buttonText: 'Select...',
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
+
+                    this.$refs.button.focus()
+
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (! this.open) return
+
+                    this.open = false
+
+                    focusAfter && focusAfter.focus()
+                },
+                choose(opt) {
+                    if(!opt) { this.buttonText = 'Select...'; resizeCanvasAndRender(); this.close(); return; }
+                    this.buttonText = opt.text;
+                    resizeCanvasAndRender(0);
+                    this.close();
+                }
+            }"
+            x-on:keydown.escape.prevent.stop="close($refs.button)"
+            x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+            x-id="['dropdown-button']"
+            class="relative"
+        >
+            <!-- Button -->
+            <button
+                x-ref="button"
+                x-on:click="toggle()"
+                x-text="buttonText"
+                :aria-expanded="open"
+                :aria-controls="$id('dropdown-button')"
+                type="button"
+                class="flex items-center gap-2 bg-white px-5 py-2.5 rounded-md shadow"
+            >
+                <!-- Heroicon: chevron-down -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <!-- Panel -->
+            <div
+                x-ref="panel"
+                x-show="open"
+                x-transition.origin.top.left
+                x-on:click.outside="close($refs.button)"
+                :id="$id('dropdown-button')"
+                style="display: none; z-index:100;"
+                class="absolute left-0 mt-2 w-40 rounded-md bg-white shadow-md"
+            >
+                <template x-for="option in dataSets" :key="option.text">
+                    <a 
+                        href="#"
+                        class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+                        x-text="option.text"
+                        x-on:click="choose(option)"
+                    >
+                    </a>
+                </template>
+
+                <a href="#" class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500" x-on:click="choose()">
+                    <span class="text-red-600">Clear</span>
+                </a>
+            </div>
+        </div>
+        <div
+            x-data="{
+                newData() {
+                    alert('coming soon!');
+                }
+            }"
+            x-id="['addData-button']"
+            class="relative mx-5"
+        >
+            <!-- Button -->
+            <button
+                x-ref="button"
+                type="button"
+                x-on:click="newData()"
+                class="flex items-center gap-2 bg-white px-5 py-2.5 rounded-md shadow"
+            >New
+                <!-- Heroicon: plus -->
+                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <svg id="dynamic-timeline" style='position:absolute; left:0px; top:50px; z-index:1;' width="800" height="400"></svg>
 </body>
 </html>
