@@ -29,16 +29,16 @@ function debounce(func, wait, immediate) {
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window,
 // then draws the new borders accordingly.
-function resizeCanvasAndRender(index) {
+function resizeCanvasAndRender() {
     const canvas = document.getElementById('dynamic-timeline');
     if (!canvas) throw new Error('Canvas not found.');
-    if (!index && index !== 0) { canvas.style.display = 'none'; return; } else canvas.style.display = 'block';
+    if (!vm_timelineSelect.optionSelected) { canvas.style.display = 'none'; return; } else canvas.style.display = 'block';
     canvas.setAttribute('width', window.innerWidth);
     canvas.setAttribute('height', window.innerHeight - 50);
-    render(canvas, index);
+    render(canvas, vm_timelineSelect.optionSelected);
 }
 
-function render(canvas, index) {
+function render(canvas, dataJson) {
     const svg = d3.select('#' + canvas.id);
     svg.selectAll('*').remove();
     const width = +svg.attr('width');
@@ -47,7 +47,6 @@ function render(canvas, index) {
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    const dataJson = dataSets[index];
     const categories = dataJson.categories;
     const domain = getDomain(dataJson);
 
@@ -154,7 +153,8 @@ function getDomain(dataJson) {
       if (thisStart && thisStart > maxVal) maxVal = thisStart;
     });
   });
-  return [ minVal, maxVal ];
+  var padding = (maxVal - minVal) / 100 * 1;
+  return [ minVal - padding, maxVal + padding ];
 }
 
 function isDate(val) {

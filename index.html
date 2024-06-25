@@ -9,7 +9,10 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script>const dataSets = [];</script>
-    <script src="./metallica.js"></script>
+    <script src="./data_metallica.js"></script>
+    <script src="./data_borknagar.js"></script>
+
+    <script src="./vm_timelineSelect.js"></script>
 
     <script src="./index.js"></script>
 
@@ -31,33 +34,7 @@
 <body onload="initialize()">
     <div class="flex justify-center">
         <div
-            x-data="{
-                open: false,
-                options: dataSets,
-                buttonText: 'Select...',
-                toggle() {
-                    if (this.open) {
-                        return this.close()
-                    }
-
-                    this.$refs.button.focus()
-
-                    this.open = true
-                },
-                close(focusAfter) {
-                    if (! this.open) return
-
-                    this.open = false
-
-                    focusAfter && focusAfter.focus()
-                },
-                choose(opt) {
-                    if(!opt) { this.buttonText = 'Select...'; resizeCanvasAndRender(); this.close(); return; }
-                    this.buttonText = opt.text;
-                    resizeCanvasAndRender(0);
-                    this.close();
-                }
-            }"
+            x-data="vm_timelineSelect"
             x-on:keydown.escape.prevent.stop="close($refs.button)"
             x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
             x-id="['dropdown-button']"
