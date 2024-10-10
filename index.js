@@ -86,19 +86,19 @@ function render(canvas, dataJson) {
     var blah3 = chart.append('g').attr('class', 'periods');
     const periodGroups = [];
     dataJson.yAxis.elements.forEach(function(item) {
-      const spans = item.spans.sort(s => s.priority);
-      spans.forEach(function(span){
+      const spans = item.spans.toSorted(function(a, b){ return a.priority - b.priority; });
+      spans.forEach(function(span) {
         var blah4 = blah3.append('g').attr('class', 'period');
         blah4.selectAll('.period-bar')
           .data([span])
           .enter().append('rect')
           .attr('class', 'period-bar')
-          .attr('stroke', d => categories.find(a => a.category === d.category).appearances[0].colour)
-          .attr('fill', d => categories.find(a => a.category === d.category).appearances[0].colour)
+          .attr('stroke', d => categories.find(a => a.category === d.category).appearances.find(a => a.priority === d.priority).colour)
+          .attr('fill', d => categories.find(a => a.category === d.category).appearances.find(a => a.priority === d.priority).colour)
           .attr('x', d => Math.max(xScale(getScaleValue(d.start) || domain[0]), 1))
-          .attr('y', d => yScale(item.text) + ((yScale.bandwidth() / 100 * 15) * (d.priority || 0)))
+          .attr('y', d => yScale(item.text) + ((yScale.bandwidth() / 100 * 5) * (d.priority || 0)))
           .attr('width', d => xScale(getScaleValue(d.end) || domain[1]) - xScale(getScaleValue(d.start) || domain[0]))
-          .attr('height', d => yScale.bandwidth() - ((yScale.bandwidth() / 100 * 30) * (d.priority || 0)));
+          .attr('height', d => yScale.bandwidth() - ((yScale.bandwidth() / 100 * 10) * (d.priority || 0)));
         periodGroups.push(blah4);
       });
     });
@@ -106,28 +106,32 @@ function render(canvas, dataJson) {
     var blah1 = chart.append('g').attr('class', 'events');
     const eventGroups = [];
     dataJson.xAxis.elements.forEach(function(item) {
-      var blah2 = blah1.append('g').attr('class', 'event');
-      blah2.selectAll('.event-bar')
-        .data([item])
-        .enter().append('line')
-        .attr('class', 'event-bar')
-        .attr('stroke', d => categories.find(a => a.category === d.spans[0].category).appearances[0].colour)
-        .attr('x1', d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
-        .attr('y1', 0)
-        .attr('x2', d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
-        .attr('y2', 0 + innerHeight);
-      blah2.selectAll('.event-text')
-        .data([item])
-        .enter().append('text')
-        .attr('class', 'event-text')
-        .attr('x', d => xScale(getScaleValue(d.spans[0].start) || domain[0]))
-        .attr('y', 9 + innerHeight)
-        .text(d => { return d.text; })
-        .attr('transform-origin', d => `${xScale(getScaleValue(d.spans[0].start) || domain[0])} ${9 + innerHeight}`)
-        .attr('transform', 'rotate(-45)')
-        .style('text-anchor', 'end')
-        .style("font-size","12px");
-      eventGroups.push(blah2);
+      const label1 = item.text;
+      const spans = item.spans.toSorted(function(a, b){ return a.priority - b.priority; });
+      spans.forEach(function(span) {
+        var blah2 = blah1.append('g').attr('class', 'event');
+        blah2.selectAll('.event-bar')
+          .data([span])
+          .enter().append('line')
+          .attr('class', 'event-bar')
+          .attr('stroke', d => categories.find(a => a.category === d.category).appearances.find(a => a.priority === d.priority).colour)
+          .attr('x1', d => xScale(getScaleValue(d.start) || domain[0]))
+          .attr('y1', 0)
+          .attr('x2', d => xScale(getScaleValue(d.start) || domain[0]))
+          .attr('y2', 0 + innerHeight);
+        blah2.selectAll('.event-text')
+          .data([item])
+          .enter().append('text')
+          .attr('class', 'event-text')
+          .attr('x', d => xScale(getScaleValue(d.start) || domain[0]))
+          .attr('y', 9 + innerHeight)
+          .text(d => { return label1; })
+          .attr('transform-origin', d => `${xScale(getScaleValue(d.spans[0].start) || domain[0])} ${9 + innerHeight}`)
+          .attr('transform', 'rotate(-45)')
+          .style('text-anchor', 'end')
+          .style("font-size","12px");
+        eventGroups.push(blah2);
+      });
     });
 
     //debugger;
