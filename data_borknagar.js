@@ -9,8 +9,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Borknagar",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1996-08-03",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -18,8 +19,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Novum Vox Mortis",
                 "spans": [
                     {
+                        "category": "Split",
                         "start": "1997",
-                        "category": "Split"
+                        "priority": 1
                     }
                 ]
             },
@@ -27,8 +29,9 @@ dataSets.push(JSON.parse(`{
                 "text": "The Olden Domain",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1997-08-18",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -36,8 +39,9 @@ dataSets.push(JSON.parse(`{
                 "text": "The Archaic Course",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1998-10-20",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -45,8 +49,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Shattering the Barriers",
                 "spans": [
                     {
+                        "category": "Split",
                         "start": "2000",
-                        "category": "Split"
+                        "priority": 1
                     }
                 ]
             },
@@ -54,8 +59,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Quintessence",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2000-04-17",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -63,8 +69,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Borknagar / Novembre",
                 "spans": [
                     {
+                        "category": "Split",
                         "start": "2001",
-                        "category": "Split"
+                        "priority": 1
                     }
                 ]
             },
@@ -72,8 +79,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Empiricism",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2001-10-22",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -81,8 +89,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Epic",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2004-06-29",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -90,8 +99,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Origin",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2006-30-10",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -99,8 +109,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Universal",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2010-02-22",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -108,8 +119,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Urd",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2012-03-26",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -117,8 +129,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Winter Thrice",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2016-01-22",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -126,8 +139,9 @@ dataSets.push(JSON.parse(`{
                 "text": "True North",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2019-09-27",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -135,8 +149,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Fall", 
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2024-02-23",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -144,8 +159,9 @@ dataSets.push(JSON.parse(`{
                 "text": "For the Elements 1996-2006",
                 "spans": [
                     {
+                        "category": "Compilation",
                         "start": "2008-07-22",
-                        "category": "Compilation"
+                        "priority": 1
                     }
                 ]
             },
@@ -153,8 +169,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Up North",
                 "spans": [
                     {
+                        "category": "Single",
                         "start": "2019",
-                        "category": "Single"
+                        "priority": 1
                     }
                 ]
             },
@@ -162,8 +179,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Moon",
                 "spans": [
                     {
+                        "category": "Single",
                         "start": "2024",
-                        "category": "Single"
+                        "priority": 1
                     }
                 ]
             }
@@ -177,9 +195,10 @@ dataSets.push(JSON.parse(`{
                 "position": 0,
                 "spans": [
                     {
+                        "category": "Vocals",
                         "start": 1994,
                         "end": 1997,
-                        "category": "Vocals"
+                        "priority": 1
                     }
                 ]
             },
@@ -188,26 +207,26 @@ dataSets.push(JSON.parse(`{
                 "position": 1,
                 "spans": [
                     {
+                        "category": "Vocals",
                         "start": 1997,
                         "end": 2000,
-                        "category": "Vocals",
-                        "priority": 0
+                        "priority": 1
                     },
                     {
+                        "category": "Vocals",
                         "start": 2010,
-                        "category": "Vocals",
-                        "priority": 0
+                        "priority": 1
                     },
                     {
+                        "category": "Bass",
                         "start": 1998,
                         "end": 2000,
-                        "category": "Bass",
-                        "priority": 1
+                        "priority": 2
                     },
                     {
-                        "start": 2010,
                         "category": "Bass",
-                        "priority": 1
+                        "start": 2010,
+                        "priority": 2
                     }
                 ]
             },
@@ -216,9 +235,10 @@ dataSets.push(JSON.parse(`{
                 "position": 2,
                 "spans": [
                     {
+                        "category": "Vocals",
                         "start": 2000,
                         "end": 2019,
-                        "category": "Vocals"
+                        "priority": 1
                     }
                 ]
             },
@@ -227,8 +247,9 @@ dataSets.push(JSON.parse(`{
                 "position": 3,
                 "spans": [
                     {
+                        "category": "Guitars",
                         "start": 1994,
-                        "category": "Guitars"
+                        "priority": 1
                     }
                 ]
             },
@@ -237,14 +258,16 @@ dataSets.push(JSON.parse(`{
                 "position": 4,
                 "spans": [
                     {
+                        "category": "Guitars",
                         "start": 1997,
                         "end": 2003,
-                        "category": "Guitars"
+                        "priority": 1
                     },
                     {
+                        "category": "Guitars",
                         "start": 2007,
                         "end": 2018,
-                        "category": "Guitars"
+                        "priority": 1
                     }
                 ]
             },
@@ -253,8 +276,9 @@ dataSets.push(JSON.parse(`{
                 "position": 5,
                 "spans": [
                     {
+                        "category": "Guitars",
                         "start": 2019,
-                        "category": "Guitars"
+                        "priority": 1
                     }
                 ]
             },
@@ -263,9 +287,10 @@ dataSets.push(JSON.parse(`{
                 "position": 6,
                 "spans": [
                     {
+                        "category": "Keyboards",
                         "start": 1994,
                         "end": 1998,
-                        "category": "Keyboards"
+                        "priority": 1
                     }
                 ]
             },
@@ -274,14 +299,14 @@ dataSets.push(JSON.parse(`{
                 "position": 7,
                 "spans": [
                     {
-                        "start": 1999,
                         "category": "Vocals",
-                        "priority": 0
+                        "start": 1999,
+                        "priority": 1
                     },
                     {
-                        "start": 1999,
                         "category": "Keyboards",
-                        "priority": 1
+                        "start": 1999,
+                        "priority": 2
                     }
                 ]
             },
@@ -290,9 +315,10 @@ dataSets.push(JSON.parse(`{
                 "position": 8,
                 "spans": [
                     {
+                        "category": "Bass",
                         "start": 1994,
                         "end": 1996,
-                        "category": "Bass"
+                        "priority": 1
                     }
                 ]
             },
@@ -301,9 +327,10 @@ dataSets.push(JSON.parse(`{
                 "position": 9,
                 "spans": [
                     {
+                        "category": "Bass",
                         "start": 1996,
                         "end": 1998,
-                        "category": "Bass"
+                        "priority": 1
                     }
                 ]
             },
@@ -312,14 +339,16 @@ dataSets.push(JSON.parse(`{
                 "position": 10,
                 "spans": [
                     {
+                        "category": "Bass",
                         "start": 2000,
                         "end": 2003,
-                        "category": "Bass"
+                        "priority": 1
                     },
                     {
+                        "category": "Bass",
                         "start": 2006,
                         "end": 2010,
-                        "category": "Bass"
+                        "priority": 1
                     }
                 ]
             },
@@ -328,9 +357,10 @@ dataSets.push(JSON.parse(`{
                 "position": 11,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 1994,
                         "end": 1998,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             },
@@ -339,9 +369,10 @@ dataSets.push(JSON.parse(`{
                 "position": 12,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 1998,
                         "end": 1999,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             },
@@ -350,16 +381,16 @@ dataSets.push(JSON.parse(`{
                 "position": 13,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 1999,
                         "end": 2008,
-                        "category": "Drums",
-                        "priority": 0
+                        "priority": 1
                     },
                     {
+                        "category": "Bass",
                         "start": 2004,
                         "end": 2005,
-                        "category": "Bass",
-                        "priority": 1
+                        "priority": 2
                     }
                 ]
             },
@@ -368,9 +399,10 @@ dataSets.push(JSON.parse(`{
                 "position": 14,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 2008,
                         "end": 2011,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             },
@@ -379,9 +411,10 @@ dataSets.push(JSON.parse(`{
                 "position": 15,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 2012,
                         "end": 2018,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             },
@@ -390,8 +423,9 @@ dataSets.push(JSON.parse(`{
                 "position": 16,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 2018,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             }
@@ -402,7 +436,7 @@ dataSets.push(JSON.parse(`{
             "category": "Vocals",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#FF0099",
                     "style": ""
                 }
@@ -412,7 +446,7 @@ dataSets.push(JSON.parse(`{
             "category": "Guitars",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#00CC00",
                     "style": ""
                 }
@@ -422,8 +456,13 @@ dataSets.push(JSON.parse(`{
             "category": "Bass",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#E6E600",
+                    "style": ""
+                },
+                {
+                    "priority": 2,
+                    "colour": "#FF3399",
                     "style": ""
                 }
             ]
@@ -432,12 +471,12 @@ dataSets.push(JSON.parse(`{
             "category": "Keyboards",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#6600CC",
                     "style": ""
                 },
                 {
-                    "priority": 1,
+                    "priority": 2,
                     "colour": "#669933",
                     "style": ""
                 }
@@ -447,7 +486,7 @@ dataSets.push(JSON.parse(`{
             "category": "Drums",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#0099FF",
                     "style": ""
                 }
@@ -457,7 +496,7 @@ dataSets.push(JSON.parse(`{
             "category": "Album",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#993399",
                     "style": ""
                 }
@@ -467,7 +506,7 @@ dataSets.push(JSON.parse(`{
             "category": "EP",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#006633",
                     "style": ""
                 }
@@ -477,7 +516,7 @@ dataSets.push(JSON.parse(`{
             "category": "Single",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#CC9900",
                     "style": ""
                 }
@@ -487,7 +526,7 @@ dataSets.push(JSON.parse(`{
             "category": "Split",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#FF6600",
                     "style": ""
                 }
@@ -497,7 +536,7 @@ dataSets.push(JSON.parse(`{
             "category": "Compilation",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#FF3399",
                     "style": ""
                 }

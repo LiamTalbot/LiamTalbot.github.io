@@ -9,8 +9,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Kill 'Em All",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1983-07-25",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -18,8 +19,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Ride the Lightning",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1984-07-27",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -27,8 +29,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Master of Puppets",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1986-02-24",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -36,8 +39,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Garage Days Re-Revisited",
                 "spans": [
                     {
+                        "category": "EP",
                         "start": 1987,
-                        "category": "EP"
+                        "priority": 1
                     }
                 ]
             },
@@ -45,8 +49,9 @@ dataSets.push(JSON.parse(`{
                 "text": "...And Justice for All",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1988-08-25",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -54,8 +59,9 @@ dataSets.push(JSON.parse(`{
                 "text": "The $5.98 E.P.: Garage Days Re-Revisited",
                 "spans": [
                     {
+                        "category": "EP",
                         "start": 1988,
-                        "category": "EP"
+                        "priority": 1
                     }
                 ]
             },
@@ -63,8 +69,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Metallica",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1991-08-12",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -72,8 +79,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Load",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1996-06-04",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -81,8 +89,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Reload",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "1997-11-18",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -90,8 +99,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Garage Inc.",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": 1998,
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -99,8 +109,9 @@ dataSets.push(JSON.parse(`{
                 "text": "S&M",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": 1999,
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -108,8 +119,9 @@ dataSets.push(JSON.parse(`{
                 "text": "St. Anger",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2003-06-05",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -117,8 +129,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Death Magnetic",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2008-09-12",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -126,8 +139,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Hardwired...To Self-Destruct",
                 "spans": [
                     {
+                        "category": "Album",
                         "start": "2016-11-18",
-                        "category": "Album"
+                        "priority": 1
                     }
                 ]
             },
@@ -135,8 +149,9 @@ dataSets.push(JSON.parse(`{
                 "text": "Lords of Summer",
                 "spans": [
                     {
+                        "category": "Single",
                         "start": 2014,
-                        "category": "Single"
+                        "priority": 1
                     }
                 ]
             }
@@ -150,14 +165,14 @@ dataSets.push(JSON.parse(`{
                 "position": 0,
                 "spans": [
                     {
-                        "start": 1981,
                         "category": "Lead Vocals",
-                        "priority": 0
+                        "start": 1981,
+                        "priority": 1
                     },
                     {
-                        "start": 1981,
                         "category": "Rhythm Guitar",
-                        "priority": 1
+                        "start": 1981,
+                        "priority": 2
                     }
                 ]
             },
@@ -166,8 +181,9 @@ dataSets.push(JSON.parse(`{
                 "position": 1,
                 "spans": [
                     {
+                        "category": "Drums",
                         "start": 1981,
-                        "category": "Drums"
+                        "priority": 1
                     }
                 ]
             },
@@ -176,8 +192,9 @@ dataSets.push(JSON.parse(`{
                 "position": 2,
                 "spans": [
                     {
+                        "category": "Lead Guitar",
                         "start": 1983,
-                        "category": "Lead Guitar"
+                        "priority": 1
                     }
                 ]
             },
@@ -186,9 +203,10 @@ dataSets.push(JSON.parse(`{
                 "position": 3,
                 "spans": [
                     {
+                        "category": "Bass Guitar",
                         "start": 1986,
                         "end": 2001,
-                        "category": "Bass Guitar"
+                        "priority": 1
                     }
                 ]
             },
@@ -197,9 +215,10 @@ dataSets.push(JSON.parse(`{
                 "position": 4,
                 "spans": [
                     {
+                        "category": "Lead Guitar",
                         "start": 1981,
                         "end": 1983,
-                        "category": "Lead Guitar"
+                        "priority": 1
                     }
                 ]
             },
@@ -208,9 +227,10 @@ dataSets.push(JSON.parse(`{
                 "position": 5,
                 "spans": [
                     {
+                        "category": "Bass Guitar",
                         "start": 1982,
                         "end": 1986,
-                        "category": "Bass Guitar"
+                        "priority": 1
                     }
                 ]
             },
@@ -219,8 +239,9 @@ dataSets.push(JSON.parse(`{
                 "position": 6,
                 "spans": [
                     {
+                        "category": "Bass Guitar",
                         "start": 2003,
-                        "category": "Bass Guitar"
+                        "priority": 1
                     }
                 ]
             },
@@ -229,9 +250,10 @@ dataSets.push(JSON.parse(`{
                 "position": 7,
                 "spans": [
                     {
+                        "category": "Bass Guitar",
                         "start": 1982,
                         "end": 1983,
-                        "category": "Bass Guitar"
+                        "priority": 1
                     }
                 ]
             }
@@ -242,7 +264,7 @@ dataSets.push(JSON.parse(`{
             "category": "Lead Vocals",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#FF0099",
                     "style": ""
                 }
@@ -252,7 +274,7 @@ dataSets.push(JSON.parse(`{
             "category": "Lead Guitar",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#00CC00",
                     "style": ""
                 }
@@ -262,7 +284,7 @@ dataSets.push(JSON.parse(`{
             "category": "Bass Guitar",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#E6E600",
                     "style": ""
                 }
@@ -272,12 +294,12 @@ dataSets.push(JSON.parse(`{
             "category": "Rhythm Guitar",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#6600CC",
                     "style": ""
                 },
                 {
-                    "priority": 1,
+                    "priority": 2,
                     "colour": "#669933",
                     "style": ""
                 }
@@ -287,7 +309,7 @@ dataSets.push(JSON.parse(`{
             "category": "Drums",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#0099FF",
                     "style": ""
                 }
@@ -297,7 +319,7 @@ dataSets.push(JSON.parse(`{
             "category": "Album",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#993399",
                     "style": ""
                 }
@@ -307,7 +329,7 @@ dataSets.push(JSON.parse(`{
             "category": "EP",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#006633",
                     "style": ""
                 }
@@ -317,7 +339,7 @@ dataSets.push(JSON.parse(`{
             "category": "Single",
             "appearances": [
                 {
-                    "priority": 0,
+                    "priority": 1,
                     "colour": "#CC9900",
                     "style": ""
                 }

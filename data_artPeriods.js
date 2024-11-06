@@ -57,6 +57,61 @@ dataSets.push(JSON.parse(`{
         "text": "Artists & Works",
         "elements": [
             {
+                "text": "Medieval",
+                "position": 1,
+                "spans": [
+                    {
+                        "text": "Early Christian",
+                        "category": "Art Period",
+                        "start": 260,
+                        "end": 535,
+                        "priority": 1
+                    },
+                    {
+                        "text": "Anglo-Saxon",
+                        "category": "Art Period",
+                        "start": 400,
+                        "end": 1066,
+                        "priority": 2
+                    },
+                    {
+                        "text": "Visigoth",
+                        "category": "Art Period",
+                        "start": 415,
+                        "end": 711,
+                        "priority": 3
+                    },
+                    {
+                        "text": "Pre-Romanesque",
+                        "category": "Art Period",
+                        "start": 500,
+                        "end": 1000,
+                        "priority": 4
+                    },
+                    {
+                        "text": "Viking",
+                        "category": "Art Period",
+                        "start": 700,
+                        "end": 1100,
+                        "priority": 1
+                    },
+                    {
+                        "text": "Romanesque",
+                        "category": "Art Period",
+                        "start": 1000,
+                        "end": 1200,
+                        "priority": 3
+                    },
+                    {
+                        "text": "Gothic",
+                        "category": "Art Period",
+                        "start": 1100,
+                        "end": 1400,
+                        "priority": 2
+                    }
+                ]
+            },
+            {
                 "text": "Renaissance",
                 "position": 2,
                 "spans": [
