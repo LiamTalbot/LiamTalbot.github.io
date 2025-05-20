@@ -1,7 +1,7 @@
 dataSets.push(JSON.parse(`{
     "text": "Art Periods",
     "xAxis": {
-        "text": "Periods",
+        "text": "Artists & Works",
         "scaleJump": 1,
         "scales": null,
         "elements": [
@@ -54,70 +54,15 @@ dataSets.push(JSON.parse(`{
         ]
     },
     "yAxis": {
-        "text": "Artists & Works",
+        "text": "Periods",
         "elements": [
             {
-                "text": "Medieval",
+                "text": "Renaissance",
                 "position": 1,
                 "spans": [
                     {
-                        "text": "Early Christian",
-                        "category": "Art Period",
-                        "start": 260,
-                        "end": 535,
-                        "priority": 1
-                    },
-                    {
-                        "text": "Anglo-Saxon",
-                        "category": "Art Period",
-                        "start": 400,
-                        "end": 1066,
-                        "priority": 2
-                    },
-                    {
-                        "text": "Visigoth",
-                        "category": "Art Period",
-                        "start": 415,
-                        "end": 711,
-                        "priority": 3
-                    },
-                    {
-                        "text": "Pre-Romanesque",
-                        "category": "Art Period",
-                        "start": 500,
-                        "end": 1000,
-                        "priority": 4
-                    },
-                    {
-                        "text": "Viking",
-                        "category": "Art Period",
-                        "start": 700,
-                        "end": 1100,
-                        "priority": 1
-                    },
-                    {
-                        "text": "Romanesque",
-                        "category": "Art Period",
-                        "start": 1000,
-                        "end": 1200,
-                        "priority": 3
-                    },
-                    {
-                        "text": "Gothic",
-                        "category": "Art Period",
-                        "start": 1100,
-                        "end": 1400,
-                        "priority": 2
-                    }
-                ]
-            },
-            {
-                "text": "Renaissance",
-                "position": 2,
-                "spans": [
-                    {
                         "text": "Renaissance",
-                        "category": "Art Period",
+                        "category": "Renaissance",
                         "start": 1400,
                         "end": 1600,
                         "priority": 1
@@ -125,26 +70,38 @@ dataSets.push(JSON.parse(`{
                 ]
             },
             {
-                "text": "Baroque",
-                "position": 3,
+                "text": "Dutch Golden Age & Flemish Baroque",
+                "position": 2,
                 "spans": [
                     {
                         "text": "Dutch Golden Age & Flemish Baroque",
-                        "category": "Art Period",
+                        "category": "Baroque",
                         "start": 1585,
                         "end": 1702,
                         "priority": 1
-                    },
+                    }
+                ]
+            },
+            {
+                "text": "Caravaggisti",
+                "position": 3,
+                "spans": [
                     {
                         "text": "Caravaggisti",
-                        "category": "Art Period",
+                        "category": "Baroque",
                         "start": 1590,
                         "end": 1650,
-                        "priority": 2
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Rococo",
+                "position": 4,
+                "spans": [
                     {
                         "text": "Rococo",
-                        "category": "Art Period",
+                        "category": "Baroque",
                         "start": 1720,
                         "end": 1780,
                         "priority": 1
@@ -153,11 +110,11 @@ dataSets.push(JSON.parse(`{
             },
             {
                 "text": "Neoclassicism",
-                "position": 4,
+                "position": 5,
                 "spans": [
                     {
                         "text": "Neoclassicism",
-                        "category": "Art Period",
+                        "category": "Neoclassicism",
                         "start": 1750,
                         "end": 1830,
                         "priority": 1
@@ -166,11 +123,11 @@ dataSets.push(JSON.parse(`{
             },
             {
                 "text": "Romanticism",
-                "position": 5,
+                "position": 6,
                 "spans": [
                     {
                         "text": "Romanticism",
-                        "category": "Art Period",
+                        "category": "Romanticism",
                         "start": 1820,
                         "end": 1880,
                         "priority": 1
@@ -178,156 +135,270 @@ dataSets.push(JSON.parse(`{
                 ]
             },
             {
-                "text": "Modern",
-                "position": 6,
+                "text": "Impressionism",
+                "position": 7,
                 "spans": [
                     {
                         "text": "Impressionism",
-                        "category": "Art Period",
+                        "category": "Modern",
                         "start": 1860,
                         "end": 1890,
                         "priority": 1
-                    },
-                    {
-                        "text": "Post/Neo-impressionism",
-                        "category": "Art Period",
-                        "start": 1885,
-                        "end": 1906,
-                        "priority": 2
-                    },
-                    {
-                        "text": "Art Nouveau",
-                        "category": "Art Period",
-                        "start": 1890,
-                        "end": 1914,
-                        "priority": 3
-                    },
-                    {
-                        "text": "Expressionism",
-                        "category": "Art Period",
-                        "start": 1905,
-                        "end": 1930,
-                        "priority": 1
-                    },
-                    {
-                        "text": "Cubism",
-                        "category": "Art Period",
-                        "start": 1907,
-                        "end": 1914,
-                        "priority": 2
-                    },
-                    {
-                        "text": "Art Deco",
-                        "category": "Art Period",
-                        "start": 1909,
-                        "end": 1939,
-                        "priority": 4
-                    },
-                    {
-                        "text": "Futurism",
-                        "category": "Art Period",
-                        "start": 1910,
-                        "end": 1930,
-                        "priority": 5
-                    },
-                    {
-                        "text": "Dada",
-                        "category": "Art Period",
-                        "start": 1916,
-                        "end": 1930,
-                        "priority": 2
-                    },
-                    {
-                        "text": "Bauhaus",
-                        "category": "Art Period",
-                        "start": 1919,
-                        "end": 1933,
-                        "priority": 3
-                    },
-                    {
-                        "text": "Surrealism",
-                        "category": "Art Period",
-                        "start": 1920,
-                        "end": 1970,
-                        "priority": 6
-                    },
-                    {
-                        "text": "New Objectivity",
-                        "category": "Art Period",
-                        "start": 1920,
-                        "end": 1933,
-                        "priority": 7
-                    },
-                    {
-                        "text": "Social Realism",
-                        "category": "Art Period",
-                        "start": 1920,
-                        "end": 1960,
-                        "priority": 8
                     }
                 ]
             },
             {
-                "text": "Contemporary",
-                "position": 7,
+                "text": "Post/Neo-impressionism",
+                "position": 8,
+                "spans": [
+                    {
+                        "text": "Post/Neo-impressionism",
+                        "category": "Modern",
+                        "start": 1885,
+                        "end": 1906,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Art Nouveau",
+                "position": 9,
+                "spans": [
+                    {
+                        "text": "Art Nouveau",
+                        "category": "Modern",
+                        "start": 1890,
+                        "end": 1914,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Expressionism",
+                "position": 10,
+                "spans": [
+                    {
+                        "text": "Expressionism",
+                        "category": "Modern",
+                        "start": 1905,
+                        "end": 1930,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Cubism",
+                "position": 11,
+                "spans": [
+                    {
+                        "text": "Cubism",
+                        "category": "Modern",
+                        "start": 1907,
+                        "end": 1914,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Art Deco",
+                "position": 12,
+                "spans": [
+                    {
+                        "text": "Art Deco",
+                        "category": "Modern",
+                        "start": 1909,
+                        "end": 1939,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Futurism",
+                "position": 13,
+                "spans": [
+                    {
+                        "text": "Futurism",
+                        "category": "Modern",
+                        "start": 1910,
+                        "end": 1930,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Dada",
+                "position": 14,
+                "spans": [
+                    {
+                        "text": "Dada",
+                        "category": "Modern",
+                        "start": 1916,
+                        "end": 1930,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Bauhaus",
+                "position": 15,
+                "spans": [
+                    {
+                        "text": "Bauhaus",
+                        "category": "Modern",
+                        "start": 1919,
+                        "end": 1933,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Surrealism",
+                "position": 16,
+                "spans": [
+                    {
+                        "text": "Surrealism",
+                        "category": "Modern",
+                        "start": 1920,
+                        "end": 1970,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "New Objectivity",
+                "position": 17,
+                "spans": [
+                    {
+                        "text": "New Objectivity",
+                        "category": "Modern",
+                        "start": 1920,
+                        "end": 1933,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Social Realism",
+                "position": 18,
+                "spans": [
+                    {
+                        "text": "Social Realism",
+                        "category": "Modern",
+                        "start": 1920,
+                        "end": 1960,
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "International Typographic Style",
+                "position": 19,
                 "spans": [
                     {
                         "text": "International Typographic Style",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1930,
                         "end": 1950,
                         "priority": 1
-                    },
+                    }
+                ]
+            },
+            {
+                "text": "Pop Art",
+                "position": 20,
+                "spans": [
                     {
                         "text": "Pop Art",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1955,
                         "end": 1980,
                         "priority": 1
-                    },
+                    }
+                ]
+            },
+            {
+                "text": "New Realism",
+                "position": 21,
+                "spans": [
                     {
                         "text": "New Realism",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1960,
                         "end": 1970,
-                        "priority": 2
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Minimalism",
+                "position": 22,
+                "spans": [
                     {
                         "text": "Minimalism",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1960,
                         "end": 1980,
-                        "priority": 3
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Conceptual",
+                "position": 23,
+                "spans": [
                     {
                         "text": "Conceptual",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1960,
                         "end": 1990,
-                        "priority": 4
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Performance",
+                "position": 24,
+                "spans": [
                     {
                         "text": "Performance",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1960,
-                        "priority": 5
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Photorealism",
+                "position": 25,
+                "spans": [
                     {
                         "text": "Photorealism",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1965,
                         "end": 1975,
-                        "priority": 6
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Postmodern",
+                "position": 26,
+                "spans": [
                     {
                         "text": "Postmodern",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1970,
-                        "priority": 7
-                    },
+                        "priority": 1
+                    }
+                ]
+            },
+            {
+                "text": "Deconstructivism",
+                "position": 27,
+                "spans": [
                     {
                         "text": "Deconstructivism",
-                        "category": "Art Period",
+                        "category": "Contemporary",
                         "start": 1985,
                         "end": 2000,
                         "priority": 1
@@ -413,45 +484,80 @@ dataSets.push(JSON.parse(`{
             ]
         },
         {
-            "category": "Art Period",
+            "category": "Renaissance",
             "appearances": [
                 {
                     "priority": 1,
-                    "colour": "#FF0099",
+                    "colour": "#004411",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "Baroque",
+            "appearances": [
                 {
-                    "priority": 2,
+                    "priority": 1,
                     "colour": "#00CC00",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "Neoclassicism",
+            "appearances": [
                 {
-                    "priority": 3,
+                    "priority": 1,
                     "colour": "#E6E600",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "Romanticism",
+            "appearances": [
                 {
-                    "priority": 4,
+                    "priority": 1,
                     "colour": "#6600CC",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "Modern",
+            "appearances": [
                 {
-                    "priority": 5,
+                    "priority": 1,
                     "colour": "#669933",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "Contemporary",
+            "appearances": [
                 {
-                    "priority": 6,
+                    "priority": 1,
                     "colour": "#0099FF",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "extra1",
+            "appearances": [
                 {
-                    "priority": 7,
+                    "priority": 1,
                     "colour": "#993399",
                     "style": ""
-                },
+                }
+            ]
+        },
+        {
+            "category": "extra2",
+            "appearances": [
                 {
-                    "priority": 8,
+                    "priority": 1,
                     "colour": "#006633",
                     "style": ""
                 }
