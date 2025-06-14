@@ -1,0 +1,8 @@
+---
+mode: The chat mode to use when running the prompt: ask, edit, or agent (default).
+tools: Array of tool (set) names to indicate which tools (sets) can be used in agent mode. Select Configure Tools to select the tools from the list of available tools in your workspace. If a given tool (set) is not available when running the prompt, it is ignored.
+description: A short description of the prompt.
+---
+Body with the prompt content
+
+Prompt files mimic the format of writing prompts in chat. This allows blending natural language instructions, additional context, and even linking to other prompt files as dependencies. You can use Markdown formatting to structure the prompt content, including headings, lists, and code blocks.

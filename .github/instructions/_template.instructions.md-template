@@ -1,0 +1,10 @@
+---
+description: A brief description of the instructions file. This description is displayed when you hover the instructions file in the Chat view.
+
+applyTo: Specify a glob pattern for files to which the instructions are automatically applied. To always include the custom instructions, use the ** pattern.
+---
+Body with the instruction content
+
+Specify the custom instructions in natural language by using Markdown formatting. You can use headings, lists, and code blocks to structure the instructions.
+
+You can reference other instruction files by using Markdown links. Use relative paths to reference these files, and ensure that the paths are correct based on the location of the instruction file.
