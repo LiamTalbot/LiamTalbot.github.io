@@ -11,3 +11,135 @@ html, body {
     border: 0px solid black;
     background-color: #FFFFFF;
 }
+
+:root {
+    --slide-panel-width: 48rem;
+    --animation-duration: 0.4s;
+    --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(var(--slide-panel-width), 100vw);
+    height: 100vh;
+    background: white;
+    box-shadow: -4px 0 25px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.slide-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+    transition: opacity var(--animation-duration) var(--animation-timing);
+}
+
+/* Form Styling */
+.slide-panel form > * + * {
+    margin-top: 1.5rem;
+}
+
+.slide-panel input[type="text"],
+.slide-panel input[type="number"],
+.slide-panel input[type="date"],
+.slide-panel select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+}
+
+.slide-panel input[type="text"]:focus,
+.slide-panel input[type="number"]:focus,
+.slide-panel input[type="date"]:focus,
+.slide-panel select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.slide-panel input[type="checkbox"] {
+    border-radius: 0.25rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* Element and Span Cards */
+.slide-panel .border {
+    border-color: #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.slide-panel .border:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .slide-panel {
+        padding: 1rem;
+    }
+
+    .slide-panel .grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+    }
+}
+
+/* Scrollbar styling for the panel */
+.slide-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.slide-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.slide-panel::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.slide-panel::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+/* Form sections */
+.slide-panel h3 {
+    color: #1f2937;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 1rem;
+}
+
+/* Helper text */
+.slide-panel .text-gray-500 {
+    font-size: 0.875rem;
+}
+
+/* Buttons */
+.slide-panel button {
+    transition: all 0.2s ease;
+}
+
+.slide-panel button:hover {
+    transform: translateY(-1px);
+}
+
+.slide-panel button:active {
+    transform: translateY(0);
+}
+
+[x-cloak] {
+    display: none !important;
+}

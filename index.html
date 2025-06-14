@@ -14,6 +14,7 @@
     <script src="./Data/artPeriods.js"></script>
 
     <script src="./Viewmodels/timelineSelect.js"></script>
+    <script src="./Viewmodels/timelineForm.js"></script>
 
     <script src="./index.js"></script>
 
@@ -68,31 +69,309 @@
                     <span class="text-red-600">Clear</span>
                 </a>
             </div>
-        </div>
-        <div
-            x-data="{
-                newData() {
-                    alert('coming soon!');
-                }
-            }"
-            x-id="['addData-button']"
-            class="relative mx-5"
-        >
+        </div>        <div x-data class="relative mx-5">
             <!-- Button -->
             <button
-                x-ref="button"
                 type="button"
-                x-on:click="newData()"
+                @click="$store.timelineForm.toggle()"
                 class="flex items-center gap-2 bg-white px-5 py-2.5 rounded-md shadow"
-            >New
+            >
                 <!-- Heroicon: plus -->
                 <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
+                <span>New</span>
             </button>
         </div>
-    </div>
 
-    <svg id="dynamic-timeline" style='position:absolute; left:0px; top:50px; z-index:1;' width="800" height="400"></svg>
+    <svg id="dynamic-timeline" style='position:absolute; left:0px; top:50px; z-index:1;' width="800" height="400"></svg> 
+    <div id="timeline"></div>    <!-- Timeline Form Panel Container -->
+    <div x-data="vm_timelineForm">
+        <!-- Overlay -->
+        <div 
+            x-cloak
+            x-show="store.isOpen"
+            x-transition.opacity.duration.300ms
+            @click="store.isOpen = false"
+            class="slide-panel-overlay"
+            style="display: none;"
+        ></div>
+
+        <!-- Sliding Panel -->
+        <div
+            x-cloak
+            x-show="$store.timelineForm.isOpen"
+            x-transition:enter="transition transform duration-300 ease-out"
+            x-transition:enter-start="translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition transform duration-200 ease-in"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="translate-x-full"
+            class="slide-panel overflow-y-auto"
+            style="display: none;"
+        >
+            <div class="p-6 space-y-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold">New Timeline</h2>
+                    <button 
+                        @click="$store.timelineForm.isOpen = false"
+                        class="text-gray-500 hover:text-gray-700"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <form @submit.prevent="submitNewTimeline" class="space-y-6">
+                    <!-- Timeline Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Timeline Name</label>
+                        <input type="text" x-model="formData.text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+
+                    <!-- X-Axis Configuration -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-medium">X-Axis Configuration</h3>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">X-Axis Label</label>
+                            <input type="text" x-model="formData.xAxis.text" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+
+                        <!-- Advanced X-Axis Options Toggle -->
+                        <div class="flex items-center">
+                            <button 
+                                type="button"
+                                @click="showAdvanced = !showAdvanced"
+                                class="text-sm text-blue-500 hover:text-blue-700 flex items-center"
+                            >
+                                <svg class="w-4 h-4 mr-1" :class="{'rotate-90': showAdvanced}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                                Advanced Options
+                            </button>
+                        </div>
+
+                        <!-- Advanced X-Axis Options -->
+                        <div x-show="showAdvanced" class="pl-4 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Scale Jump</label>
+                                <input type="number" x-model="formData.xAxis.scaleJump" min="1" class="mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <p class="mt-1 text-sm text-gray-500">Step size between elements on the scale</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Custom Scales</label>
+                                <select x-model="formData.xAxis.scales" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                    <option value="null">None</option>
+                                    <option value="years">Years</option>
+                                    <option value="months">Months</option>
+                                </select>
+                                <p class="mt-1 text-sm text-gray-500">Optional custom scale configuration</p>
+                            </div>
+                        </div>
+
+                        <!-- X-Axis Elements -->
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Timeline Elements</label>
+                            <template x-for="(element, index) in formData.xAxis.elements" :key="index">
+                                <div class="border rounded-md p-4 mb-4 space-y-4">
+                                    <div class="flex justify-between">
+                                        <input type="text" x-model="element.text" required placeholder="Element Name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        <button @click="removeElement(index)" type="button" class="ml-2 text-red-500 hover:text-red-700">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Spans -->
+                                    <div class="ml-4">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Spans</label>
+                                        <template x-for="(span, spanIndex) in element.spans" :key="spanIndex">
+                                            <div class="border rounded-md p-3 mb-2 space-y-2">
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <div>
+                                                        <input type="text" x-model="span.text" placeholder="Span Name (optional)" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                        <p class="text-xs text-gray-500 mt-1">Optional text for the span</p>
+                                                    </div>
+                                                    <div>
+                                                        <select x-model="span.category" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                            <option value="">Select Category</option>
+                                                            <template x-for="category in categories" :key="category">
+                                                                <option x-text="category"></option>
+                                                            </template>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <div>
+                                                        <label class="block text-xs text-gray-500 mb-1">Start Date</label>
+                                                        <input 
+                                                            type="date"
+                                                            required
+                                                            x-model="span.start"
+                                                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                        >
+                                                        <p class="text-xs text-gray-500 mt-1">Use YYYY-01-01 for year-only dates</p>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-xs text-gray-500 mb-1">End Date (optional)</label>
+                                                        <input 
+                                                            type="date"
+                                                            x-model="span.end"
+                                                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <label class="block text-xs text-gray-500 mb-1">Priority</label>
+                                                        <select x-model="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                            <template x-for="priority in priorityOptions" :key="priority">
+                                                                <option x-text="priority"></option>
+                                                            </template>
+                                                        </select>
+                                                    </div>
+                                                    <button @click="removeSpan(index, spanIndex)" type="button" class="text-red-500 hover:text-red-700">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <button @click="addSpan(index)" type="button" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                                            + Add Span
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                            <button @click="addElement('x')" type="button" class="mt-2 text-blue-500 hover:text-blue-700">
+                                + Add Element
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Y-Axis Configuration -->
+                    <div>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <label class="text-lg font-medium">Y-Axis Configuration</label>
+                            <input type="checkbox" x-model="includeYAxis" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="text-sm text-gray-500">Include Y-Axis</span>
+                        </div>
+
+                        <div x-show="includeYAxis" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Y-Axis Label</label>
+                                <input type="text" x-model="formData.yAxis.text" :required="includeYAxis" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            </div>
+
+                            <!-- Y-Axis Elements -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Y-Axis Elements</label>
+                                <template x-for="(element, index) in formData.yAxis.elements" :key="index">
+                                    <div class="border rounded-md p-4 mb-4 space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex-1 mr-2">
+                                                <input type="text" x-model="element.text" :required="includeYAxis" placeholder="Element Name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                            </div>
+                                            <div class="flex items-center space-x-2">
+                                                <label class="text-sm text-gray-500">Position:</label>
+                                                <input type="number" x-model="element.position" min="1" class="w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                            </div>
+                                            <button @click="removeElement(index, 'y')" type="button" class="ml-2 text-red-500 hover:text-red-700">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <!-- Y-Axis Spans -->
+                                        <div class="ml-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Spans</label>
+                                            <template x-for="(span, spanIndex) in element.spans" :key="spanIndex">
+                                                <div class="border rounded-md p-3 mb-2 space-y-2">
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <div>
+                                                            <input type="text" x-model="span.text" placeholder="Span Name (optional)" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                        </div>
+                                                        <div>
+                                                            <select x-model="span.category" :required="includeYAxis" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                                <option value="">Select Category</option>
+                                                                <template x-for="category in categories" :key="category">
+                                                                    <option x-text="category"></option>
+                                                                </template>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <div>
+                                                            <label class="block text-xs text-gray-500 mb-1">Start Date</label>
+                                                            <input 
+                                                                type="date"
+                                                                :required="includeYAxis"
+                                                                x-model="span.start"
+                                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                            >
+                                                            <p class="text-xs text-gray-500 mt-1">Use YYYY-01-01 for year-only dates</p>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs text-gray-500 mb-1">End Date (optional)</label>
+                                                            <input 
+                                                                type="date"
+                                                                x-model="span.end"
+                                                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex justify-between items-center">
+                                                        <div>
+                                                            <label class="block text-xs text-gray-500 mb-1">Priority</label>
+                                                            <select x-model="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                                <template x-for="priority in priorityOptions" :key="priority">
+                                                                    <option x-text="priority"></option>
+                                                                </template>
+                                                            </select>
+                                                        </div>
+                                                        <button @click="removeSpan(index, spanIndex, 'y')" type="button" class="text-red-500 hover:text-red-700">
+                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <button @click="addSpan(index, 'y')" type="button" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                                                + Add Span
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                                <button @click="addElement('y')" type="button" class="mt-2 text-blue-500 hover:text-blue-700">
+                                    + Add Y-Axis Element
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3">
+                        <button 
+                            type="button" 
+                            @click="$store.timelineForm.isOpen = false"
+                            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            type="submit"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                        >
+                            Create Timeline
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
