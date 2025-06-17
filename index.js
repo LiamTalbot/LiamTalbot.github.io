@@ -1,10 +1,13 @@
 let uniqueHexColors = ['#FF0099', '#00CC00', '#E6E600', '#6600CC', '#0099FF', '#993399', '#006633', '#CC9900', '#669933', '#FF99CC', '#330099', '#FF6600', '#9900CC', '#666633', '#CCCCFF'];
 
 function initialize() {
-    // Register an event listener to call the function each time the window is resized.
-    window.addEventListener('resize', debounce(resizeCanvasAndRender, 250), false);
-    // Draw canvas border for the first time.
-    resizeCanvasAndRender();
+    // Wait for Alpine to be ready before initializing
+    document.addEventListener('alpine:init', () => {
+        // Register an event listener to call the function each time the window is resized.
+        window.addEventListener('resize', debounce(resizeCanvasAndRender, 250), false);
+        // Draw canvas border for the first time.
+        resizeCanvasAndRender();
+    });
 }
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -29,10 +32,17 @@ function debounce(func, wait, immediate) {
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window,
 // then draws the new borders accordingly.
-function resizeCanvasAndRender() {
-    const canvas = document.getElementById('dynamic-timeline');
+function resizeCanvasAndRender() {    const canvas = document.getElementById('dynamic-timeline');
     if (!canvas) throw new Error('Canvas not found.');
-    if (!vm_timelineSelect.optionSelected) { canvas.style.display = 'none'; return; } else canvas.style.display = 'block';
+    
+    // Get the timeline selection safely through Alpine store instead of direct view model access
+    const timelineState = Alpine.store('timelineSelect');
+    if (!timelineState || !vm_timelineSelect || !vm_timelineSelect.optionSelected) { 
+        canvas.style.display = 'none';
+        return;
+    }
+    
+    canvas.style.display = 'block';
     canvas.setAttribute('width', window.innerWidth);
     canvas.setAttribute('height', window.innerHeight - 50);
     render(canvas, vm_timelineSelect.optionSelected);

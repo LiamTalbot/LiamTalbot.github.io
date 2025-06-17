@@ -1,3 +1,9 @@
+document.addEventListener('alpine:init', () => {
+    Alpine.store('timelineSelect', {
+        selection: null
+    });
+});
+
 const vm_timelineSelect = {
     open: false,
     options: dataSets,
@@ -14,9 +20,12 @@ const vm_timelineSelect = {
         if (!this.open) return;
         this.open = false;
         focusAfter && focusAfter.focus();
-    },
-    choose(opt) {
-        this.optionSelected = opt;
+    },    choose(opt) {
+        // Explicitly set to null when clearing
+        this.optionSelected = opt || null;
+        // Update the global store, ensuring null when clearing
+        Alpine.store('timelineSelect').selection = opt || null;
+        
         if(!this.optionSelected) {
             resizeCanvasAndRender();
             this.close(this.$refs.button);
