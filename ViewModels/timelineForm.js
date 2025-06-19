@@ -14,11 +14,9 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('vm_timelineForm', () => ({
         init() {
             console.log('Form component initialized');
-            // Make store available to component
             this.store = window.formStore;
         },
         showAdvanced: false,
-        includeYAxis: false,
         formData: {
             text: '',
             xAxis: {
@@ -30,7 +28,8 @@ document.addEventListener('alpine:init', () => {
             yAxis: {
                 text: '',
                 elements: []
-            }
+            },
+            categories: [] // Start with empty categories array
         },
         
         // Convert between date input value and data format
@@ -50,21 +49,7 @@ document.addEventListener('alpine:init', () => {
             return date;
         },
 
-        priorityOptions: [1, 2, 3, 4, 5],
-
-        // Combined categories from both datasets
-        categories: [
-            'Album',
-            'EP',
-            'Painting',
-            'Drawing',
-            'Lifetime',
-            'Period',
-            'Renaissance',
-            'Baroque',
-            'Other'
-        ],
-
+        // Methods for handling elements and spans
         addElement(axis = 'x') {
             const element = {
                 text: '',
@@ -111,63 +96,73 @@ document.addEventListener('alpine:init', () => {
             element.spans.splice(spanIndex, 1);
         },
 
-        submitNewTimeline() {
-            // Format dates to match the expected format
-            const formattedData = {
+        async submitNewTimeline(event) {
+            // Format dates
+            const processSpans = (spans) => {
+                return spans.map(span => ({
+                    ...span,
+                    start: this.formatDateForData(span.start),
+                    end: this.formatDateForData(span.end)
+                }));
+            };
+
+            const timelineData = {
                 ...this.formData,
                 xAxis: {
                     ...this.formData.xAxis,
-                    elements: this.formData.xAxis.elements.map(element => ({
-                        ...element,
-                        spans: element.spans.map(span => ({
-                            ...span,
-                            start: this.formatDateForData(span.start),
-                            end: this.formatDateForData(span.end),
-                            // Only include optional fields if they have values
-                            ...(span.text ? { text: span.text } : {}),
-                        }))
+                    elements: this.formData.xAxis.elements.map(el => ({
+                        ...el,
+                        spans: processSpans(el.spans)
                     }))
-                }
-            };
-
-            // Only include yAxis if it's enabled and has elements
-            if (this.includeYAxis && this.formData.yAxis.elements.length > 0) {
-                formattedData.yAxis = {
-                    ...this.formData.yAxis,
-                    elements: this.formData.yAxis.elements.map(element => ({
-                        ...element,
-                        spans: element.spans.map(span => ({
-                            ...span,
-                            start: this.formatDateForData(span.start),
-                            end: this.formatDateForData(span.end),
-                            ...(span.text ? { text: span.text } : {}),
-                        }))
-                    }))
-                };
-            } else {
-                delete formattedData.yAxis;
-            }
-
-            // Add the new timeline to the datasets
-            dataSets.push(formattedData);
-            
-            // Reset the form
-            this.formData = {
-                text: '',
-                xAxis: {
-                    text: '',
-                    scaleJump: 1,
-                    scales: null,
-                    elements: []
                 },
                 yAxis: {
-                    text: '',
-                    elements: []
+                    ...this.formData.yAxis,
+                    elements: this.formData.yAxis.elements.map(el => ({
+                        ...el,
+                        spans: processSpans(el.spans)
+                    }))
                 }
             };
-            this.showAdvanced = false;
-            this.includeYAxis = false;
-            this.$store.timelineForm.isOpen = false;
+
+            try {
+                const validationResult = validateDataSet(timelineData);
+                if (!validationResult.valid) {
+                    this.showValidationError('Invalid timeline data', validationResult.errors);
+                    return;
+                }
+
+                // Add the timeline to the dataset
+                dataSets.push(timelineData);
+                console.log('Timeline added:', timelineData);
+
+                // Close the form and reset it
+                this.store.isOpen = false;
+                this.formData = {
+                    text: '',
+                    xAxis: {
+                        text: '',
+                        scaleJump: 1,
+                        scales: null,
+                        elements: []
+                    },
+                    yAxis: {
+                        text: '',
+                        elements: []
+                    },
+                    categories: []
+                };
+            } catch (error) {
+                console.error('Error submitting timeline:', error);
+                this.showValidationError('Error submitting timeline', error.message);
+            }
+        },
+
+        showValidationError(message, details = null) {
+            let errorMessage = message;
+            if (details) {
+                errorMessage += '\n\n' + JSON.stringify(details, null, 2);
+            }
+            alert(errorMessage);
         }
     }));
 });
