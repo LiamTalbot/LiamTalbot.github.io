@@ -29,6 +29,7 @@ document.addEventListener('alpine:init', () => {
 
     // Initialize the component
     Alpine.data('vm_timelineForm', () => ({
+        priorityOptions: [1, 2, 3, 4, 5],
         init() {
             console.log('Form component initialized');
             this.store = window.formStore;
@@ -37,20 +38,22 @@ document.addEventListener('alpine:init', () => {
             window.addEventListener('populateTimelineForm', (event) => {
                 const timeline = event.detail;
                 if (timeline) {
-                    this.formData = {
-                        text: timeline.text || '',
-                        xAxis: {
-                            text: timeline.xAxis?.text || '',
-                            scaleJump: timeline.xAxis?.scaleJump || 1,
-                            scales: timeline.xAxis?.scales || null,
-                            elements: [...(timeline.xAxis?.elements || [])]
-                        },
-                        yAxis: {
-                            text: timeline.yAxis?.text || '',
-                            elements: [...(timeline.yAxis?.elements || [])]
-                        },
-                        categories: [...(timeline.categories || [])]
-                    };
+                    // Deep clone, preserving all properties
+                    this.formData = JSON.parse(JSON.stringify(timeline));
+
+                    // --- Normalize yAxis elements and spans ---
+                    /*if (this.formData.yAxis && Array.isArray(this.formData.yAxis.elements)) {
+                        this.formData.yAxis.elements.forEach(element => {
+                            if (!Array.isArray(element.spans)) element.spans = [];
+                            element.spans.forEach(span => {
+                                if (typeof span.priority !== 'number') span.priority = 1;
+                                if (!('startYear' in span)) span.startYear = null;
+                                if (!('endYear' in span)) span.endYear = null;
+                                if (!Array.isArray(span.categories)) span.categories = [];
+                                if (!('text' in span)) span.text = '';
+                            });
+                        });
+                    }*/
                 }
             });
 
@@ -166,7 +169,8 @@ document.addEventListener('alpine:init', () => {
                     text: '',
                     startYear: null,
                     endYear: null,
-                    categories: []
+                    categories: [],
+                    priority: 1
                 });
             }
         },

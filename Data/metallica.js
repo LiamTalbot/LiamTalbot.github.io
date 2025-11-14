@@ -11,7 +11,7 @@ dataSets.push(JSON.parse(`{
                     {
                         "category": "Album",
                         "start": "1983-07-25",
-                        "priority": 1
+                        "priority": 2
                     }
                 ]
             },

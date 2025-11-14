@@ -285,9 +285,9 @@
                                                         <div class="flex justify-between items-center">
                                                             <div>
                                                                 <label class="block text-xs text-gray-500 mb-1">Priority</label>
-                                                                <select x-model="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                                <select x-model.number="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                                                     <template x-for="priority in priorityOptions" :key="priority">
-                                                                        <option x-text="priority"></option>
+                                                                        <option :value="priority" x-text="priority"></option>
                                                                     </template>
                                                                 </select>
                                                             </div>
@@ -413,9 +413,9 @@
                                                         <div class="flex justify-between items-center">
                                                             <div>
                                                                 <label class="block text-xs text-gray-500 mb-1">Priority</label>
-                                                                <select x-model="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                                <select x-model.number="span.priority" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                                                     <template x-for="priority in priorityOptions" :key="priority">
-                                                                        <option x-text="priority"></option>
+                                                                        <option :value="priority" x-text="priority"></option>
                                                                     </template>
                                                                 </select>
                                                             </div>
